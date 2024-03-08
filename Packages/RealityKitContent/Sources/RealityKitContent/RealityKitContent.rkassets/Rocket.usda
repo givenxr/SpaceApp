@@ -12,11 +12,15 @@ def Xform "Root"
 {
     def "Rocket" (
         active = true
+        customData = {
+            float3 rotationEulerHint = (0, 0, 0)
+        }
         prepend references = @Rocket.usdz@
     )
     {
-        float3 xformOp:scale = (0.01, 0.01, 0.01)
-        float3 xformOp:translate = (0, 0.1, 0)
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.007, 0.007, 0.007)
+        float3 xformOp:translate = (0.7, 1.5, -3)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
 }

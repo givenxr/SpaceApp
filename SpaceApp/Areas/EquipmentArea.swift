@@ -138,6 +138,7 @@ struct EquipmentArea: View {
                             dismissWindow(id: model.capsuleRealityAreaId)
                         }.padding(.trailing, 30)
                         .padding(.top, 30)
+                        
                     }
                     
                     
@@ -148,7 +149,7 @@ struct EquipmentArea: View {
                         .padding(.bottom, 30)
                         .padding(.top, 30)
                         .foregroundColor(.white)
-                    YouTubeView(videoID: "https://youtu.be/78ATfCaBn6E").frame(width: 800, height: 500)
+                    YouTubeView(videoID: "78ATfCaBn6E").frame(width: 800, height: 500)
                     
                     Divider()
                     
@@ -194,7 +195,7 @@ struct EquipmentArea: View {
                         .padding(.bottom, 30)
                         .foregroundColor(.white)
                     
-                    YouTubeView(videoID: "https://youtu.be/Z4TXCZG_NEY").frame(width: 800, height: 500)
+                    YouTubeView(videoID: "Z4TXCZG_NEY").frame(width: 800, height: 500)
                 }
                 
               
@@ -213,7 +214,8 @@ struct EquipmentArea: View {
                 .resizable()
                 .scaledToFill()
             )
-        }
+
+    }
 }
 
 struct YouTubeView: UIViewRepresentable {
@@ -228,7 +230,6 @@ struct YouTubeView: UIViewRepresentable {
         uiView.load(URLRequest(url: youtubeURL!))
     }
 }
-
 #Preview {
     EquipmentArea()
         .environment(ViewModel())

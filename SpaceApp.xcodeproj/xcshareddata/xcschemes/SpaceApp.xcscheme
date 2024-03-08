@@ -20,6 +20,20 @@
                ReferencedContainer = "container:SpaceApp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8193B5A72B8DF5B7009823BF"
+               BuildableName = "UniverseUnveiledMobile.app"
+               BlueprintName = "UniverseUnveiledMobile"
+               ReferencedContainer = "container:SpaceApp.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

@@ -26,7 +26,7 @@ struct NavigationToAreas: View {
                     NavigationLink{
                         
                        if area == Area.Planets{
-                            PlanetView()
+                            PlanetViews()
                         }
                        else  if area == Area.Earth{
                            EarthArea()

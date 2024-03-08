@@ -75,7 +75,6 @@ struct PlanetView: View {
                // <#code#>
             case .Earth: Earth()
                // <#code#>
-            
             case .Mars: Mars()
                 //<#code#>
             case .Jupiter: Jupiter()

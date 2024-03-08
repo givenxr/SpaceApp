@@ -30,7 +30,7 @@ struct CapsuleDetails: View {
                 Text("The Dragon spacecraft is capable of carrying up to 7 passengers to and from Earth orbit, and beyond. It is the only spacecraft currently flying that is capable of returning significant amounts of cargo to Earth, and is the first private spacecraft to take humans to the space station.")
                     .font(.system(size: 8))
                 
-                HStack(alignment:.top) {
+                /*HStack(alignment:.top) {
                     VStack(alignment:.leading) {
                         Toggle(isOn: $lightOn){
                             Text("Light \(!lightOn ? "Off" : "On")")
@@ -62,7 +62,7 @@ struct CapsuleDetails: View {
                                 })
                         }
                     }
-                }
+                }*/
             }
             .padding(EdgeInsets(top: 5, leading: 25, bottom: 0, trailing: 25))
             .frame(width: 300, height: 120)

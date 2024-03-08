@@ -50,7 +50,7 @@ struct PlanetArea: View {
                                 Model3D(named: planets.planetName, bundle: realityKitContentBundle)
                                     .frame(width: 100, height: 100)
                                     .scaledToFit()
-                                    .padding(.bottom, 30)
+                                    .padding(.bottom, 50)
                                 
                                 
                                 Text(planets.rawValue.capitalized)

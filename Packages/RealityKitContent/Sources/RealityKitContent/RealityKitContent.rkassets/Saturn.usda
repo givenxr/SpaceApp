@@ -15,7 +15,7 @@ def Xform "Root"
         prepend references = @Saturn.usdz@
     )
     {
-        float3 xformOp:scale = (0.3, 0.3, 0.3)
+        float3 xformOp:scale = (0.4, 0.4, 0.4)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
 }

@@ -1,0 +1,14 @@
+{
+  "pathsToIds" : {
+    "UU_Mobile\/Sources\/UU_Mobile\/UU_Mobile.rkassets\/Earth.usda" : "04B685B0-303B-4662-85FA-F2FFC26CC333",
+    "UU_Mobile\/Sources\/UU_Mobile\/UU_Mobile.rkassets\/Jupiter.usda" : "D3C9E170-1B41-4053-92D1-8CD8F2EAE28F",
+    "UU_Mobile\/Sources\/UU_Mobile\/UU_Mobile.rkassets\/Mars.usda" : "A04C4CA1-E401-4312-8E3D-A96733DDBA5F",
+    "UU_Mobile\/Sources\/UU_Mobile\/UU_Mobile.rkassets\/Mercury.usda" : "29457A33-3422-4282-8A4A-6E972384FC2A",
+    "UU_Mobile\/Sources\/UU_Mobile\/UU_Mobile.rkassets\/Neptune.usda" : "D9BACC29-052A-4637-B612-32179A35A142",
+    "UU_Mobile\/Sources\/UU_Mobile\/UU_Mobile.rkassets\/Pluto.usda" : "E9023CBC-7762-4382-81C7-1E0A06F952B7",
+    "UU_Mobile\/Sources\/UU_Mobile\/UU_Mobile.rkassets\/Saturn.usda" : "0AF89007-B264-430B-86EB-6CFDCFF518B4",
+    "UU_Mobile\/Sources\/UU_Mobile\/UU_Mobile.rkassets\/Scene.usda" : "0E30BECB-B49B-4C63-AA51-5B8EC0272171",
+    "UU_Mobile\/Sources\/UU_Mobile\/UU_Mobile.rkassets\/Uranus.usda" : "24B41BF8-4DC9-4145-B6B6-FF30C07DD3FB",
+    "UU_Mobile\/Sources\/UU_Mobile\/UU_Mobile.rkassets\/Venus.usda" : "9799632D-E1D5-4ED8-BB4F-FCD128928602"
+  }
+}

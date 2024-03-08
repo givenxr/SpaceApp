@@ -12,10 +12,15 @@ def Xform "Root"
 {
     def "SolarSystem1" (
         active = true
+        customData = {
+            float3 rotationEulerHint = (0, -0.52359885, 0)
+        }
         prepend references = @SolarSystem1.usdz@
     )
     {
-        float3 xformOp:scale = (0.01, 0.01, 0.01)
+        quatf xformOp:orient = (0.9659258, 0, -0.25881904, 0)
+        float3 xformOp:scale = (0.001, 0.001, 0.001)
+        float3 xformOp:translate = (0.7, 1.5, -1)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
 }
