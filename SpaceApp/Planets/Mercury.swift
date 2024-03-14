@@ -8,7 +8,7 @@
 // Mercury.swift
 
 import SwiftUI
-import RealityKitContent
+import SceneKit
 import RealityKit
 
 struct Mercury: View {
@@ -51,20 +51,7 @@ struct Mercury: View {
                                 .padding(.bottom, 50)
                                 .padding(.trailing, 30)
                                 .padding(.leading, 50)*/
-                            Model3D(named: "Earth") { model in
-                                 model
-                                     .resizable()
-                                     .aspectRatio(contentMode: .fit)
-                                     .scaleEffect(0.4)
-                                     .phaseAnimator([false, true]) { Planet, threeDYRotate in
-                                         Planet
-                                             .rotation3DEffect(.degrees(threeDYRotate ? 0 : 5 * 20), axis: (x: 0, y: 1, z: 0))
-                                     } animation: { threeDYRotate in
-                                             .linear(duration: 10).repeatForever(autoreverses: false)
-                                     }
-                             } placeholder: {
-                                 ProgressView()
-                             }
+                         
                             
                             
                             

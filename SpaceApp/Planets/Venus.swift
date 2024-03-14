@@ -5,7 +5,7 @@
 //  Created by Given Mahlangu on 2024/01/11.
 //
 import SwiftUI
-import RealityKitContent
+import SceneKit
 import RealityKit
 
 struct Venus: View {
@@ -56,20 +56,10 @@ struct Venus: View {
                     
                     VStack(alignment: .leading) {
                         HStack {
-                            Model3D(named: planet.planetName, bundle: realityKitContentBundle)
-                                 { model in model
-                                         .resizable()
-                                         .aspectRatio(contentMode: .fit)
-                                         .scaleEffect(0.4)
-                                         .phaseAnimator([false, true]) { Planet, threeDYRotate in
-                                        Planet
-                                            .rotation3DEffect(.degrees(threeDYRotate ? 0 : 1 * 200), axis: (x: 0, y: 1, z: 0))
-                                    } animation: { threeDYRotate in
-                                            .linear(duration: 30).repeatForever(autoreverses: false)
-                                    }
-                            } placeholder: {
-                                ProgressView()
-                            }.padding(.leading, 40)
+                            PlanetSceneView(scene: SCNScene(named: "\(planet.rawValue).usdz"))
+                                .frame(width: 200, height: 200)
+                                .scaledToFit()
+                                .padding(.bottom, 50)
 
                             Text(planet.about)
                                 .padding(.trailing, 30)
@@ -160,6 +150,7 @@ struct Venus: View {
                 }
             }
         }
+        .background(Color.black.edgesIgnoringSafeArea(.all))
         .onAppear {
             // Additional setup if needed when the view appears
         }

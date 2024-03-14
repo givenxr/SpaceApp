@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "spacex-dragon-2-crew-dragon-2020-3d-model-low-poly-obj-fbx-blend.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
