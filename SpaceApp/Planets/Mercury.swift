@@ -13,6 +13,7 @@ import RealityKit
 
 struct Mercury: View {
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.colorScheme) var colorScheme
     @State private var isHovered = false
     var planet: Planets = .Mercury
     
@@ -47,10 +48,10 @@ struct Mercury: View {
                         
                         HStack{
                             
-                            /*Model3D(named: "Mercury", bundle: realityKitContentBundle)
-                                .padding(.bottom, 50)
-                                .padding(.trailing, 30)
-                                .padding(.leading, 50)*/
+//                            Model3D(named: "Mercury", bundle: realityKitContentBundle)
+//                                .padding(.bottom, 50)
+//                                .padding(.trailing, 30)
+//                                .padding(.leading, 50)
                          
                             
                             

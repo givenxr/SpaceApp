@@ -11,40 +11,41 @@ import RealityKit
 
 struct Pluto: View {
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.colorScheme) var colorScheme
     @State private var isHovered = false
-    var planet: Planets = .Mercury
+    var planet: Planets = .Pluto
 
     var body: some View {
         ZStack {
             // Your background and other UI elements here
 
             VStack {
-                HStack {
-                    Button {
-                        presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        HStack {
-                            Image(systemName: "chevron.left")
-                                .foregroundColor(.white)
-                                .font(.title)
-                            if isHovered {
-                                Text("Back")
-                                    .foregroundColor(.white)
-                                    .font(.system(size: 16))
-                                    .padding(.leading, 5)
-                            }
-                        }
-                        .onHover { hovering in
-                            withAnimation {
-                                isHovered = hovering
-                            }
-                        }
-                    }
-                    .padding(.leading, 20)
-                    .padding(.top, 20)
-
-                    Spacer()
-                }
+//                HStack {
+//                    Button {
+//                        presentationMode.wrappedValue.dismiss()
+//                    } label: {
+//                        HStack {
+//                            Image(systemName: "chevron.left")
+//                                .foregroundColor(.white)
+//                                .font(.title)
+//                            if isHovered {
+//                                Text("Back")
+//                                    .foregroundColor(.white)
+//                                    .font(.system(size: 16))
+//                                    .padding(.leading, 5)
+//                            }
+//                        }
+//                        .onHover { hovering in
+//                            withAnimation {
+//                                isHovered = hovering
+//                            }
+//                        }
+//                    }
+//                    .padding(.leading, 20)
+//                    .padding(.top, 20)
+//
+//                    Spacer()
+//                }
 
                 ScrollView {
                     Text(planet.planetName)
@@ -52,19 +53,24 @@ struct Pluto: View {
                         .font(.system(size: 40, weight: .bold))
                         .padding(.top, 30)
                         .foregroundColor(.white)
+                    PlanetSceneView(scene: SCNScene(named: "\(planet.rawValue).usdz"))
+                        .frame(width: 300, height: 300)
+                        .scaledToFit()
+                        .padding(.bottom, 50)
                     
                     VStack(alignment: .leading) {
                         HStack {
-                            PlanetSceneView(scene: SCNScene(named: "\(planet.rawValue).usdz"))
-                                .frame(width: 200, height: 200)
-                                .scaledToFit()
-                                .padding(.bottom, 50)
+                           
 
                             Text(planet.about)
-                                .padding(.trailing, 30)
-                                .foregroundColor(.white)
+                                .multilineTextAlignment(.leading) // Adjust alignment if needed
+                                .foregroundColor(colorScheme == .dark ? .white : .black) // Change color based on color scheme
+                                .frame(maxWidth: .infinity) // Expand to fill the width
+                                .padding() // Add padding for better readability
+                                .lineSpacing(5) // Adjust line spacing if needed
+                                .lineLimit(nil) // Allow unlimited lines
+                                .fixedSize(horizontal: false, vertical: true) // Allow vertical
                                 
-                                //.padding(.leading, 40)
                             
                         }
                         Divider()
@@ -140,7 +146,7 @@ struct Pluto: View {
                             .foregroundColor(.white)
                             .padding(.bottom, 30)
                         
-                        Text("Pluto was once the ninth planet from the sun and is unlike any other planet in the solar system.  \n \n Pluto was once the ninth planet from the sun and is unlike any other planet in the solar system.  \n\n It is smaller than Earth's moon; its orbit is highly elliptical, falling inside Neptune's orbit at some points and far beyond it at others; and Pluto's orbit doesn't fall on the same plane as all the other planets — instead, it orbits 17.1 degrees above or below, taking 288 years to complete a single orbit according to ESA. \n\n From 1979 until early 1999, Pluto had been the eighth planet from the sun. Then, on Feb. 11, 1999, it crossed Neptune's path and once again became the solar system's most distant planet — until it was redefined as a dwarf planet. It's a cold, rocky world with a tenuous atmosphere. \n\n Scientists thought it might be nothing more than a hunk of rock on the outskirts of the solar system. But when NASA's New Horizons mission performed history's first flyby of the Pluto system on July 14, 2015, it transformed scientists' view of Pluto. \n\n Pluto is a very active ice world that's covered in glaciers, mountains of ice water, icy dunes and possibly even cryovolcanoes that erupt icy lava made of water, methane or ammonia.")
+                        Text("Pluto was once the ninth planet from the sun and is unlike any other planet in the solar system.  \n \n Pluto was once the ninth planet from the sun and is unlike any other planet in the solar system.  \n\n It is smaller than Earth's moon; its orbit is highly elliptical, falling inside Neptune's orbit at some points and far beyond it at others; and Pluto's orbit doesn't fall on the same plane as all the other planets — instead, it orbits 17.1 degrees above or below, taking 288 years to complete a single orbit according to ESA. \n\n From 1979 until early 1999, Pluto had been the eighth planet from the sun. Then, on Feb. 11, 1999, it crossed Neptune's path and once again became the solar system's most distant planet — until it was redefined as a dwarf planet. It's a cold, rocky world with a tenuous atmosphere. \n\n Scientists thought it might be nothing more than a hunk of rock on the outskirts of the solar system. But when NASA's New Horizons mission performed history's first flyby of the Pluto system on July 14, 2015, it transformed scientists' view of Pluto. \n\n Pluto is a very active ice world that's covered in glaciers, mountains of ice water, icy dunes and possibly even cryovolcanoes that erupt icy lava made of water, methane or ammonia.").foregroundColor(.white)
                          
 
                     }
@@ -149,7 +155,8 @@ struct Pluto: View {
                 }
             }
         }
-        .background(Color.black.edgesIgnoringSafeArea(.all))
+        .padding(.leading, 5)
+        //.background(Color.black.edgesIgnoringSafeArea(.all))
         .onAppear {
             // Additional setup if needed when the view appears
         }

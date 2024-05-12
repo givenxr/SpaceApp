@@ -11,17 +11,18 @@ import RealityKit
 
 struct Jupiter: View {
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.colorScheme) var colorScheme
     @State private var isHovered = false
     var planet: Planets = .Jupiter
     
     var body: some View {
         
-        ZStack {
-            LinearGradient(
-                gradient: Gradient(colors: [Color.black, Color.black]),
-                startPoint: .top,
-                endPoint: .bottom
-            ).background(Color.black.edgesIgnoringSafeArea(.all))
+//        ZStack {
+//            LinearGradient(
+//                gradient: Gradient(colors: [Color.black, Color.black]),
+//                startPoint: .top,
+//                endPoint: .bottom
+//            ).background(Color.black.edgesIgnoringSafeArea(.all))
             
             ZStack {
                 // Your background and other UI elements here
@@ -60,19 +61,24 @@ struct Jupiter: View {
                             .font(.system(size: 40, weight: .bold))
                             .padding(.top, 30)
                             .foregroundColor(.white)
+                        PlanetSceneView(scene: SCNScene(named: "\(planet.rawValue).usdz"))
+                            .frame(width: 300, height: 300)
+                            .scaledToFit()
+                            .padding(.bottom, 50)
                         
                         VStack(alignment: .leading) {
                             
-                                PlanetSceneView(scene: SCNScene(named: "\(planet.rawValue).usdz"))
-                                    .frame(width: 200, height: 200)
-                                    .scaledToFit()
-                                    .padding(.bottom, 50)
+                                
                                 
                                 Text(planet.about)
-                                    .padding(.trailing, 30)
-                                    .foregroundColor(.white)
+                                .multilineTextAlignment(.leading) // Adjust alignment if needed
+                                .foregroundColor(colorScheme == .dark ? .white : .black) // Change color based on color scheme
+                                .frame(maxWidth: .infinity) // Expand to fill the width
+                                .padding() // Add padding for better readability
+                                .lineSpacing(5) // Adjust line spacing if needed
+                                .lineLimit(nil) // Allow unlimited lines
+                                .fixedSize(horizontal: false, vertical: true) // Allow vertical
                                 
-                                //.padding(.leading, 40)
                                 
                             
                             Divider()
@@ -158,13 +164,13 @@ struct Jupiter: View {
                     }
                 }
             }
+            .padding(.leading, 5)
             .onAppear {
                 // Additional setup if needed when the view appears
             }
         }
     }
         
-}
 
 #Preview {
     Jupiter()

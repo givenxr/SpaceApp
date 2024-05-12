@@ -11,40 +11,41 @@ import RealityKit
 
 struct Saturn: View {
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.colorScheme) var colorScheme
     @State private var isHovered = false
-    var planet: Planets = .Mercury
+    var planet: Planets = .Saturn
 
     var body: some View {
         ZStack {
             // Your background and other UI elements here
 
             VStack {
-                HStack {
-                    Button {
-                        presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        HStack {
-                            Image(systemName: "chevron.left")
-                                .foregroundColor(.white)
-                                .font(.title)
-                            if isHovered {
-                                Text("Back")
-                                    .foregroundColor(.white)
-                                    .font(.system(size: 16))
-                                    .padding(.leading, 5)
-                            }
-                        }
-                        .onHover { hovering in
-                            withAnimation {
-                                isHovered = hovering
-                            }
-                        }
-                    }
-                    .padding(.leading, 20)
-                    .padding(.top, 20)
-
-                    Spacer()
-                }
+//                HStack {
+//                    Button {
+//                        presentationMode.wrappedValue.dismiss()
+//                    } label: {
+//                        HStack {
+//                            Image(systemName: "chevron.left")
+//                                .foregroundColor(.white)
+//                                .font(.title)
+//                            if isHovered {
+//                                Text("Back")
+//                                    .foregroundColor(.white)
+//                                    .font(.system(size: 16))
+//                                    .padding(.leading, 5)
+//                            }
+//                        }
+//                        .onHover { hovering in
+//                            withAnimation {
+//                                isHovered = hovering
+//                            }
+//                        }
+//                    }
+//                    .padding(.leading, 20)
+//                    .padding(.top, 20)
+//
+//                    Spacer()
+//                }
 
                 ScrollView {
                     Text(planet.planetName)
@@ -52,19 +53,24 @@ struct Saturn: View {
                         .font(.system(size: 40, weight: .bold))
                         .padding(.top, 30)
                         .foregroundColor(.white)
+                    PlanetSceneView(scene: SCNScene(named: "\(planet.rawValue).usdz"))
+                        .frame(width: 300, height: 300)
+                        .scaledToFit()
+                        .padding(.bottom, 50)
                     
                     VStack(alignment: .leading) {
                         HStack {
-                            PlanetSceneView(scene: SCNScene(named: "\(planet.rawValue).usdz"))
-                                .frame(width: 200, height: 200)
-                                .scaledToFit()
-                                .padding(.bottom, 50)
+                            
 
                             Text(planet.about)
-                                .padding(.trailing, 30)
-                                .foregroundColor(.white)
+                                .multilineTextAlignment(.leading) // Adjust alignment if needed
+                                .foregroundColor(colorScheme == .dark ? .white : .black) // Change color based on color scheme
+                                .frame(maxWidth: .infinity) // Expand to fill the width
+                                .padding() // Add padding for better readability
+                                .lineSpacing(5) // Adjust line spacing if needed
+                                .lineLimit(nil) // Allow unlimited lines
+                                .fixedSize(horizontal: false, vertical: true) // Allow vertical
                                 
-                                //.padding(.leading, 40)
                             
                         }
                         Divider()
@@ -140,7 +146,7 @@ struct Saturn: View {
                             .foregroundColor(.white)
                             .padding(.bottom, 30)
                         
-                        Text("Saturn is the sixth planet from the sun and is famous for its large and distinct ring system. Though Saturn is not the only planet in the solar system with rings. \n \n When polymath Galileo Galilei first studied Saturn in the early 1600s, he thought it was an object with three parts: a planet and two large moons on either side. Not knowing he was seeing a planet with rings, the stumped astronomer entered a small drawing — a symbol with one large circle and two smaller ones — in his notebook, as a noun in a sentence describing his discovery. More than 40 years later, Christiaan Huygens proposed that they were rings. \n\n The rings are made of ice and rock and scientists are not yet sure how they formed. The gaseous planet is mostly hydrogen and helium and has numerous moons. ")
+                        Text("Saturn is the sixth planet from the sun and is famous for its large and distinct ring system. Though Saturn is not the only planet in the solar system with rings. \n \n When polymath Galileo Galilei first studied Saturn in the early 1600s, he thought it was an object with three parts: a planet and two large moons on either side. Not knowing he was seeing a planet with rings, the stumped astronomer entered a small drawing — a symbol with one large circle and two smaller ones — in his notebook, as a noun in a sentence describing his discovery. More than 40 years later, Christiaan Huygens proposed that they were rings. \n\n The rings are made of ice and rock and scientists are not yet sure how they formed. The gaseous planet is mostly hydrogen and helium and has numerous moons. ").foregroundColor(.white)
                         
 
                     }
@@ -148,8 +154,8 @@ struct Saturn: View {
                     
                 }
             }
-        }
-        .background(Color.black.edgesIgnoringSafeArea(.all))
+        }.padding(.leading, 5)
+        //.background(Color.black.edgesIgnoringSafeArea(.all))
         .onAppear {
             // Additional setup if needed when the view appears
         }

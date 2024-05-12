@@ -10,6 +10,7 @@ import RealityKit
 
 struct Venus: View {
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.colorScheme) var colorScheme
     @State private var isHovered = false
     var planet: Planets = .Venus
     
@@ -19,32 +20,32 @@ struct Venus: View {
 
             VStack {
                     
-                    HStack {
-                        Button {
-                            presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            HStack {
-                                Image(systemName: "chevron.left")
-                                    .foregroundColor(.white)
-                                    .font(.title)
-                                if isHovered {
-                                    Text("Back")
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 16))
-                                        .padding(.leading, 5)
-                                }
-                            }
-                            .onHover { hovering in
-                                withAnimation {
-                                    isHovered = hovering
-                                }
-                            }
-                        }
-                        .padding(.leading, 20)
-                        .padding(.top, 20)
-                        
-                        Spacer()
-                    }
+//                    HStack {
+//                        Button {
+//                            presentationMode.wrappedValue.dismiss()
+//                        } label: {
+//                            HStack {
+//                                Image(systemName: "chevron.left")
+//                                    .foregroundColor(.white)
+//                                    .font(.title)
+//                                if isHovered {
+//                                    Text("Back")
+//                                        .foregroundColor(.white)
+//                                        .font(.system(size: 16))
+//                                        .padding(.leading, 5)
+//                                }
+//                            }
+//                            .onHover { hovering in
+//                                withAnimation {
+//                                    isHovered = hovering
+//                                }
+//                            }
+//                        }
+//                        .padding(.leading, 20)
+//                        .padding(.top, 20)
+//                        
+//                        Spacer()
+//                    }
                 
 
                 ScrollView {
@@ -53,19 +54,24 @@ struct Venus: View {
                         .font(.system(size: 40, weight: .bold))
                         .padding(.top, 30)
                         .foregroundColor(.white)
+                    PlanetSceneView(scene: SCNScene(named: "\(planet.rawValue).usdz"))
+                        .frame(width: 300, height: 300)
+                        .scaledToFit()
+                        .padding(.bottom, 50)
                     
                     VStack(alignment: .leading) {
                         HStack {
-                            PlanetSceneView(scene: SCNScene(named: "\(planet.rawValue).usdz"))
-                                .frame(width: 200, height: 200)
-                                .scaledToFit()
-                                .padding(.bottom, 50)
+                            
 
                             Text(planet.about)
-                                .padding(.trailing, 30)
-                                .foregroundColor(.white)
+                                .multilineTextAlignment(.leading) // Adjust alignment if needed
+                                .foregroundColor(colorScheme == .dark ? .white : .black) // Change color based on color scheme
+                                .frame(maxWidth: .infinity) // Expand to fill the width
+                                .padding() // Add padding for better readability
+                                .lineSpacing(5) // Adjust line spacing if needed
+                                .lineLimit(nil) // Allow unlimited lines
+                                .fixedSize(horizontal: false, vertical: true) // Allow vertical
                                 
-                                //.padding(.leading, 40)
                             
                         }
                         Divider()
@@ -141,7 +147,7 @@ struct Venus: View {
                             .foregroundColor(.white)
                             .padding(.bottom, 30)
                         
-                        Text("Venus is the second planet from the sun and is the hottest planet in the solar system. Its thick atmosphere is extremely toxic and composed of sulfuric acid clouds, the planet is an extreme example of the greenhouse effect.  \n \nThe average temperature on Venus' surface is 900 F (465 C). At 92 bar, the pressure at the surface would crush and kill you. And oddly, Venus spins slowly from east to west, the opposite direction of most of the other planets. \n\n Venus is sometimes referred to as Earth's twin as they are similar in size and radar images beneath its atmosphere reveal numerous mountains and volcanoes. But beyond that, the planets could not be more different.  \n\n The Greeks believed Venus was two different objects — one in the morning sky and another in the evening. Because it is often brighter than any other object in the sky, Venus has generated many UFO reports.  ")
+                        Text("Venus is the second planet from the sun and is the hottest planet in the solar system. Its thick atmosphere is extremely toxic and composed of sulfuric acid clouds, the planet is an extreme example of the greenhouse effect.  \n \nThe average temperature on Venus' surface is 900 F (465 C). At 92 bar, the pressure at the surface would crush and kill you. And oddly, Venus spins slowly from east to west, the opposite direction of most of the other planets. \n\n Venus is sometimes referred to as Earth's twin as they are similar in size and radar images beneath its atmosphere reveal numerous mountains and volcanoes. But beyond that, the planets could not be more different.  \n\n The Greeks believed Venus was two different objects — one in the morning sky and another in the evening. Because it is often brighter than any other object in the sky, Venus has generated many UFO reports.  ").foregroundColor(.white)
                         
 
                     }
@@ -150,7 +156,10 @@ struct Venus: View {
                 }
             }
         }
-        .background(Color.black.edgesIgnoringSafeArea(.all))
+        .padding(.leading, 5)
+        //.navigationBarBackButtonHidden(true)
+        
+        //.background(Color.black.edgesIgnoringSafeArea(.all))
         .onAppear {
             // Additional setup if needed when the view appears
         }

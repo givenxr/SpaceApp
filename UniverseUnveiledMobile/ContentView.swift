@@ -45,13 +45,10 @@ struct ContentView: View {
                             .offset(y: -50)
                     )
                 
-                
-                //Spacer()
-                
                 // Button Section
                 VStack {
                     HStack{
-                        NavigationLink(destination: Jupiter()) {
+                        NavigationLink(destination: PlanetsAreaMobile().navigationBarHidden(true)) {
                             Text("Planets")
                                 .frame(width: 150, height: 150)
                                 .background(Color.blue)
@@ -59,7 +56,7 @@ struct ContentView: View {
                                 .cornerRadius(10)
                         }
                         
-                        NavigationLink(destination: EarthAreaMobile()) {
+                        NavigationLink(destination: EarthAreaMobile().navigationBarHidden(true)) {
                             Text("Earth")
                                 .frame(width: 150, height: 150)
                                 .background(Color.green)
@@ -69,7 +66,7 @@ struct ContentView: View {
                     }
                     
                     HStack{
-                        NavigationLink(destination: GalaxyAreaMobile()) {
+                        NavigationLink(destination: GalaxyAreaMobile().navigationBarHidden(true)) {
                             Text("Galaxy")
                                 .frame(width: 150, height: 150)
                                 .background(Color.orange)
@@ -77,7 +74,7 @@ struct ContentView: View {
                                 .cornerRadius(10)
                         }
                         
-                        NavigationLink(destination: EquipmentAreaMobile()) {
+                        NavigationLink(destination: EquipmentAreaMobile().navigationBarHidden(true)) {
                             Text("Equipment")
                                 .frame(width: 150, height: 150)
                                 .background(Color.red)
@@ -87,21 +84,15 @@ struct ContentView: View {
                     }
                 }
                 
-                
-                
-                
-                
-                
                 Spacer()
             }
             .padding()
             .background(Color.black.edgesIgnoringSafeArea(.all))
-            .navigationTitle("Back") // Add your app title here
+            .navigationBarBackButtonHidden(true) // Hide back button
+            
         }
     }
 }
-
-
 
 
 #Preview {
