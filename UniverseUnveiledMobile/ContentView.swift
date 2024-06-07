@@ -56,7 +56,7 @@ struct ContentView: View {
                                 .cornerRadius(10)
                         }
                         
-                        NavigationLink(destination: EarthAreaMobile().navigationBarHidden(true)) {
+                        NavigationLink(destination: ConsoleView().navigationBarHidden(true)) {
                             Text("Earth")
                                 .frame(width: 150, height: 150)
                                 .background(Color.green)

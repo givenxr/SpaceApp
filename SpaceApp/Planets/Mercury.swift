@@ -13,7 +13,6 @@ import RealityKit
 
 struct Mercury: View {
     @Environment(\.presentationMode) var presentationMode
-    @Environment(\.colorScheme) var colorScheme
     @State private var isHovered = false
     var planet: Planets = .Mercury
     

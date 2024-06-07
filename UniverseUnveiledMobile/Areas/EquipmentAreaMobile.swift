@@ -131,7 +131,7 @@ struct EquipmentAreaMobile: View {
                         
                         }
                     
-                    Text("View the Crew Dragon Interior")
+                    Text("View the Falcon 9 rocket")
                         .monospaced()
                         .font(.system(size: 20, weight: .bold))
                         .padding(.top, 50)
