@@ -1,178 +1,105 @@
-//
-//  EquipmentAreaMobile.swift
-//  UniverseUnveiledMobile
-//
-//  Created by Given Mahlangu on 2024/03/08.
-//
-
-
 import SwiftUI
 import WebKit
 import RealityKit
+import ARKit
+import FocusEntity
 
 struct EquipmentAreaMobile: View {
-    /*@Environment(ViewModel.self) private var model
-    @Environment(\.openWindow) private var openWindow
-    @Environment(\.dismissWindow) private var dismissWindow
-    
-    @Environment(\.openImmersiveSpace) private var openImmersiveSpace
-    @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace*/
-    @State private var isARPresentedCapsule = false // State variable for Capsule AR view
-    @State private var isARPresentedRocket = false // State variable for Rocket AR view
+    @State private var isARPresentedCapsule = false
+    @State private var isARPresentedRocket = false
     @Environment(\.colorScheme) var colorScheme
-
     
     var body: some View {
-        //@Bindable var model = model
-        @Environment(\.colorScheme) var colorScheme
-        
-        
-        ScrollView{
+        ScrollView {
             Text("Space Exploration \n Equipment")
                 .monospaced()
                 .font(.system(size: 30, weight: .bold))
                 .padding(.top, 50)
                 .multilineTextAlignment(.center)
-                //.foregroundColor(colorScheme == .dark ? .white : .black)
             
             VStack {
-                
-                VStack{
+                VStack {
                     Text("DRAGON")
                         .monospaced()
                         .font(.system(size: 30, weight: .bold))
                         .padding(.top, 50)
-                        //.foregroundColor(colorScheme == .dark ? .white : .black)
                     Text("SENDING HUMANS AND CARGO INTO SPACE")
-                        //.foregroundColor(colorScheme == .dark ? .white : .black)
                         .padding(.bottom, 50)
+                    
+                    VStack {
+                        Text("The Dragon spacecraft is capable of carrying up to 7 passengers to and from Earth orbit, and beyond...")
+                            .padding(.leading, 30)
+                            .padding(.trailing, 30)
                         
-                    VStack{
+                        Text("View the Crew Dragon Interior")
+                            .monospaced()
+                            .font(.system(size: 20, weight: .bold))
+                            .padding(.bottom, 30)
+                            .padding(.top, 30)
                         
-                        Text("The Dragon spacecraft is capable of carrying up to 7 passengers to and from Earth orbit, and beyond. It is the only spacecraft currently flying that is capable of returning significant amounts of cargo to Earth, and is the first private spacecraft to take humans to the space station. \n\nThe Dragon spacecraft is equipped with 16 Draco thrusters used to orient the spacecraft during the mission, including apogee/perigee maneuvers, orbit adjustment and attitude control. Each Draco thruster is capable of generating 90 pounds of force in the vacuum of space.")
-                            //.foregroundColor(colorScheme == .dark ? .white : .black)
+                        YouTubeView(videoID: "78ATfCaBn6E").frame(width: 360, height: 500)
                         
-                        /*EquipmentCard(isShowing: $model.isShowingRocketCapsule, toggleTitle: "Rocket Capsule", imageName: "Capsule") {
-                            openWindow(id: model.capsuleRealityAreaId)
-                        } dismissCard: {
-                            dismissWindow(id: model.capsuleRealityAreaId)
-                        }.padding(.trailing, 30)
-                        .padding(.top, 30)*/
+                        Button(action: {
+                            isARPresentedCapsule.toggle()
+                        }) {
+                            Text("Show Capsule in AR")
+                                .frame(width: 200, height: 50)
+                                .background(Color.blue)
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
+                                .cornerRadius(10)
+                                .padding()
+                        }
+                        .sheet(isPresented: $isARPresentedCapsule) {
+                            ARViewContainer1(modelName: "Capsule")
+                        }
                         
-                    }.padding(.leading, 30)
-                    .padding(.trailing, 30)
-
-                    
-                    
-                    
-                    Text("View the Crew Dragon Interior")
-                        .monospaced()
-                        .font(.system(size: 20, weight: .bold))
-                        .padding(.bottom, 30)
-                        .padding(.top, 30)
-                        //.foregroundColor(colorScheme == .dark ? .white : .black)
-                    
-                    YouTubeView(videoID: "78ATfCaBn6E").frame(width: 360, height: 500)
-                    // Button to show Earth in AR
-                    Button(action: {
-                                    isARPresentedCapsule.toggle()
-                                }) {
-                                    Text("Show Capsule in AR")
-                                        .frame(width: 200, height: 50)
-                                        .background(Color.blue)
-                                        .foregroundColor(colorScheme == .dark ? .white : .black)
-                                        .cornerRadius(10)
-                                        .padding()
-                                }
-                                .sheet(isPresented: $isARPresentedCapsule, content: {
-                                    ARViewContainer1(modelName: "Capsule")
-                                })
-
-
-                    
-                    Divider()
-                    
-                    Text("FALCON 9")
-                        .monospaced()
-                        .font(.system(size: 30, weight: .bold))
-                        .padding(.top, 50)
-                        //.foregroundColor(colorScheme == .dark ? .white : .black)
-                    
-                    Text("FIRST ORBITAL CLASS ROCKET CAPABLE OF REFLIGHT")
-                        .multilineTextAlignment(.center)
-                        .padding(.bottom, 30)
-                        //.foregroundColor(colorScheme == .dark ? .white : .black)
-                    
-                    VStack{
-                        Image("galaxynight")
+                        Divider()
+                        
+                        Text("FALCON 9")
+                            .monospaced()
+                            .font(.system(size: 30, weight: .bold))
+                            .padding(.top, 50)
+                        
+                        Text("FIRST ORBITAL CLASS ROCKET CAPABLE OF REFLIGHT")
+                            .multilineTextAlignment(.center)
+                            .padding(.bottom, 30)
+                        
+                        VStack {
+                            Image("galaxynight")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 250, height: 250)
-                        
-                        Text("Falcon 9 is a reusable, two-stage rocket designed and manufactured by SpaceX for the reliable and safe transport of people and payloads into Earth orbit and beyond. Falcon 9 is the world’s first orbital class reusable rocket. Reusability allows SpaceX to refly the most expensive parts of the rocket, which in turn drives down the cost of space access.")
-                            .padding(.leading, 30)
-                            .padding(.trailing, 50)
-                            //.foregroundColor(colorScheme == .dark ? .white : .black)
-                    }
-                    VStack{
-                        Text("The Falcon 9 rocket is powered by the Merlin rocket engines. The Falcon 9 typically has nine Merlin engines in its first stage and a single Merlin Vacuum engine in its second stage. These engines run on rocket-grade kerosene (RP-1) and liquid oxygen (LOX) propellants. \n\nThe Merlin engines are known for their efficiency and reliability, contributing to the success of the Falcon 9 as a versatile and reusable launch vehicle. SpaceX has been actively working on improving and evolving its rocket technology, and the Falcon 9 is an important part of their family of launch vehicles.")
-                            .padding(.leading, 30)
-                            .padding(.trailing, 50)
-                            //.foregroundColor(colorScheme == .dark ? .white : .black)
-                        
-                       /* EquipmentCard(isShowing: $model.isShowingFullRocket, toggleTitle: "Rocket (Full Immersive)", imageName: "Rocket") {
-                            await openImmersiveSpace(id: model.fullRocketRealityArea)
-                        } dismissCard: {
-                            await dismissImmersiveSpace()
-                        }.padding(.trailing, 30)
-                         .padding(.top, 30)*/
-            
-                        
-                        
+                            
+                            Text("Falcon 9 is a reusable, two-stage rocket designed and manufactured by SpaceX...")
+                                .padding(.leading, 30)
+                                .padding(.trailing, 50)
+                            
+                            Text("View the Falcon 9 rocket")
+                                .monospaced()
+                                .font(.system(size: 20, weight: .bold))
+                                .padding(.top, 50)
+                                .padding(.bottom, 30)
+                            
+                            YouTubeView(videoID: "Z4TXCZG_NEY").frame(width: 360, height: 500)
                         }
-                    
-                    Text("View the Falcon 9 rocket")
-                        .monospaced()
-                        .font(.system(size: 20, weight: .bold))
-                        .padding(.top, 50)
-                        .padding(.bottom, 30)
-                        //.foregroundColor(colorScheme == .dark ? .white : .black)
-                    
-                    YouTubeView(videoID: "Z4TXCZG_NEY").frame(width: 360, height: 500)
+                        
+                        Button(action: {
+                            isARPresentedRocket.toggle()
+                        }) {
+                            Text("Show Rocket in AR")
+                                .frame(width: 200, height: 50)
+                                .background(Color.blue)
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
+                                .cornerRadius(10)
+                                .padding()
+                        }
+                        .sheet(isPresented: $isARPresentedRocket) {
+                            ARViewContainer1(modelName: "Rocket")
+                        }
+                    }
                 }
-                
-                Button(action: {
-                                isARPresentedRocket.toggle()
-                            }) {
-                                Text("Show Rocket in AR")
-                                    .frame(width: 200, height: 50)
-                                    .background(Color.blue)
-                                    .foregroundColor(colorScheme == .dark ? .white : .black)
-                                    .cornerRadius(10)
-                                    .padding()
-                            }
-                            .sheet(isPresented: $isARPresentedRocket, content: {
-                                ARViewContainer1(modelName: "Rocket")
-                            })
-
-                
-              
-                
-                
-                
-                /*EquipmentCard(isShowing: $model.isShowingMixedRocket, toggleTitle: "Rocket (Mixed Immersive Space)", imageName: "equipment-mixedrocket") {
-                    await openImmersiveSpace(id: model.mixedRocketRealityArea)
-                } dismissCard: {
-                    await dismissImmersiveSpace()
-                }*/
             }
-        }/*.background(Color.black.edgesIgnoringSafeArea(.all))
-        .background(
-            Image("galaxynight2")
-                .resizable()
-                .scaledToFill()
-            )*/
-
+        }
     }
 }
 
@@ -191,15 +118,13 @@ struct YouTubeView: UIViewRepresentable {
 
 struct ARViewContainer1: View {
     @Environment(\.presentationMode) var presentationMode
-    let modelName: String // Add modelName property
+    let modelName: String
     
     var body: some View {
-        @Environment(\.colorScheme) var colorScheme
-
         ZStack {
-            ARViewRepresentable1(modelName: modelName) // Pass modelName to ARViewRepresentable1
+            ARViewRepresentable1(modelName: modelName)
                 .edgesIgnoringSafeArea(.all)
-
+            
             VStack {
                 Spacer()
                 HStack {
@@ -210,7 +135,7 @@ struct ARViewContainer1: View {
                         Image(systemName: "chevron.down.circle.fill")
                             .resizable()
                             .frame(width: 50, height: 50)
-                            .foregroundColor(colorScheme == .dark ? .white : .black)
+                            .foregroundColor(.white)
                             .padding()
                     }
                 }
@@ -220,36 +145,118 @@ struct ARViewContainer1: View {
 }
 
 struct ARViewRepresentable1: UIViewRepresentable {
-    let modelName: String // Add modelName property
+    let modelName: String
     
-    init(modelName: String) { // Initialize modelName
+    init(modelName: String) {
         self.modelName = modelName
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(modelName: modelName)
     }
     
     func makeUIView(context: Context) -> ARView {
         let arView = ARView(frame: .zero)
-
-        do {
-            // Load the model based on modelName
-            let modelEntity = try ModelEntity.loadModel(named: modelName + ".usdz")
-
-            // Add the model to the scene
-            let anchor = AnchorEntity(world: [0, -2, -2]) // Place the model slightly in front of the camera
-            anchor.addChild(modelEntity)
-            arView.scene.anchors.append(anchor)
-        } catch {
-            // Handle the error
-            print("Failed to load the model:", error)
-        }
-
+        arView.setupARSession()
+        arView.setupCustomGestures(coordinator: context.coordinator)
+        context.coordinator.setupFocusEntity(arView: arView)
         return arView
     }
-
+    
     func updateUIView(_ uiView: ARView, context: Context) {}
+    
+    class Coordinator: NSObject {
+        var modelEntity: ModelEntity?
+        let modelName: String
+        var focusEntity: FocusEntity?
+        
+        init(modelName: String) {
+            self.modelName = modelName
+        }
+        
+        func setupFocusEntity(arView: ARView) {
+            focusEntity = FocusEntity(on: arView, style: .classic(color: .yellow))
+        }
+        
+        @objc func handleCustomTap(_ sender: UITapGestureRecognizer) {
+            guard let arView = sender.view as? ARView else { return }
+            let location = sender.location(in: arView)
+            
+            if let result = arView.hitTest(location, types: .existingPlaneUsingExtent).first {
+                let anchor = AnchorEntity(world: result.worldTransform)
+                
+                if let modelEntity = modelEntity {
+                    modelEntity.removeFromParent()
+                }
+                
+                // Ensure the entity is correctly loaded and cast to ModelEntity
+                do {
+                    if let entity = try? Entity.loadModel(named: modelName + ".usdz") {
+                        guard let modelEntity = entity as? ModelEntity else {
+                            print("Loaded entity is not a ModelEntity")
+                            return
+                        }
+                        self.modelEntity = modelEntity
+                        modelEntity.generateCollisionShapes(recursive: true)
+                        arView.installGestures([.translation, .rotation, .scale], for: modelEntity)
+                        anchor.addChild(modelEntity)
+                        arView.scene.addAnchor(anchor)
+                    }
+                } catch {
+                    print("Failed to load the model: \(error)")
+                }
+            }
+        }
+        
+        @objc func handlePinch(_ sender: UIPinchGestureRecognizer) {
+            guard let arView = sender.view as? ARView else { return }
+            let location = sender.location(in: arView)
+            
+            if sender.state == .changed {
+                if let entity = arView.entity(at: location) as? ModelEntity {
+                    let pinchScaleX = Float(sender.scale) * entity.scale.x
+                    let pinchScaleY = Float(sender.scale) * entity.scale.y
+                    let pinchScaleZ = Float(sender.scale) * entity.scale.z
+                    entity.scale = [pinchScaleX, pinchScaleY, pinchScaleZ]
+                    sender.scale = 1
+                }
+            }
+        }
+        
+        @objc func handlePan(_ sender: UIPanGestureRecognizer) {
+            guard let arView = sender.view as? ARView else { return }
+            let location = sender.location(in: arView)
+            
+            if sender.state == .changed {
+                let translation = sender.translation(in: arView)
+                if let entity = arView.entity(at: location) as? ModelEntity {
+                    let currentPosition = entity.position
+                    entity.position = [currentPosition.x + Float(translation.x) * 0.001, currentPosition.y, currentPosition.z + Float(translation.y) * 0.001]
+                    sender.setTranslation(.zero, in: arView)
+                }
+            }
+        }
+    }
 }
 
+extension ARView {
+    func setupARSession() {
+        let config = ARWorldTrackingConfiguration()
+        config.planeDetection = [.horizontal, .vertical]
+        session.run(config, options: [])
+    }
 
-
+    func setupCustomGestures(coordinator: ARViewRepresentable1.Coordinator) {
+        let tapGesture = UITapGestureRecognizer(target: coordinator, action: #selector(coordinator.handleCustomTap(_:)))
+        addGestureRecognizer(tapGesture)
+        
+        let pinchGesture = UIPinchGestureRecognizer(target: coordinator, action: #selector(coordinator.handlePinch(_:)))
+        addGestureRecognizer(pinchGesture)
+        
+        let panGesture = UIPanGestureRecognizer(target: coordinator, action: #selector(coordinator.handlePan(_:)))
+        addGestureRecognizer(panGesture)
+    }
+}
 
 #Preview {
     EquipmentAreaMobile()

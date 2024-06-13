@@ -1,6 +1,7 @@
 import SwiftUI
 import RealityKit
 import ARKit
+import FocusEntity
 
 struct ConsoleView: View {
     @State private var isShowingAR = false
@@ -27,7 +28,7 @@ struct ConsoleView: View {
                     .cornerRadius(10)
             }
             .sheet(isPresented: $isShowingAR, content: {
-                CustomARViewContainer(modelName: "blue_cube")
+                CustomARViewContainer()
             })
         }
         .padding()
@@ -36,7 +37,6 @@ struct ConsoleView: View {
 
 struct CustomARViewContainer: UIViewRepresentable {
     @Environment(\.presentationMode) var presentationMode
-    let modelName: String
 
     func makeUIView(context: Context) -> ARView {
         let arView = ARView(frame: .zero)
@@ -46,8 +46,8 @@ struct CustomARViewContainer: UIViewRepresentable {
         config.planeDetection = [.horizontal, .vertical]
         arView.session.run(config, options: [])
         
-        arView.setupCustomGestures()
-        context.coordinator.setupARView(arView: arView, modelName: modelName)
+        context.coordinator.setupARView(arView: arView)
+        context.coordinator.setupFocusEntity(for: arView)
         
         return arView
     }
@@ -58,46 +58,92 @@ struct CustomARViewContainer: UIViewRepresentable {
         Coordinator()
     }
 
-    class Coordinator {
-        func setupARView(arView: ARView, modelName: String) {
-            // Create a blue cube model
-            let boxMesh = MeshResource.generateBox(size: 0.1)
-            let blueMaterial = SimpleMaterial(color: .blue, isMetallic: false)
-            let modelEntity = ModelEntity(mesh: boxMesh, materials: [blueMaterial])
+    class Coordinator: NSObject {
+        var focusEntity: FocusEntity?
+        var modelEntity: ModelEntity?
+        
+        func setupARView(arView: ARView) {
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleCustomTap))
+            arView.addGestureRecognizer(tapGesture)
             
-            modelEntity.generateCollisionShapes(recursive: true)
-            arView.installGestures([.translation, .rotation, .scale], for: modelEntity)
+            arView.addGestureRecognizer(UIPinchGestureRecognizer(target: self, action: #selector(handlePinch)))
+            arView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePan)))
+        }
+        
+        func setupFocusEntity(for arView: ARView) {
+            focusEntity = FocusEntity(on: arView, style: .classic(color: .yellow))
+        }
+
+        @objc func handleCustomTap(_ sender: UITapGestureRecognizer) {
+            guard let arView = sender.view as? ARView else { return }
+            let location = sender.location(in: arView)
             
-            let anchor = AnchorEntity(world: [0, 0, 0])
-            anchor.addChild(modelEntity)
-            arView.scene.addAnchor(anchor)
+            // Debug: Log tap location
+            print("Tap location: \(location)")
             
-            print("Blue cube model created and added to anchor")
+            if let result = arView.hitTest(location, types: .existingPlaneUsingExtent).first {
+                let anchor = AnchorEntity(world: result.worldTransform)
+                
+                // Remove existing model entity if present
+                if let modelEntity = modelEntity {
+                    modelEntity.removeFromParent()
+                }
+                
+                // Load the SolarSystem USDZ model
+                do {
+                    let modelEntity = try ModelEntity.loadModel(named: "SolarSystem")
+                    self.modelEntity = modelEntity
+                    modelEntity.generateCollisionShapes(recursive: true)
+                    anchor.addChild(modelEntity)
+                    arView.scene.addAnchor(anchor)
+                    
+                    // Debug: Log successful loading and placement
+                    print("Successfully loaded and placed the SolarSystem model")
+                } catch {
+                    // Debug: Log model loading failure
+                    print("Failed to load the SolarSystem model: \(error)")
+                }
+            } else {
+                // Debug: Log if no hit test result
+                print("No hit test result")
+            }
+        }
+        
+        @objc func handlePinch(_ sender: UIPinchGestureRecognizer) {
+            guard let arView = sender.view as? ARView else { return }
+            let scale = sender.scale
+            
+            if let modelEntity = modelEntity {
+                if sender.state == .changed {
+                    modelEntity.scale *= SIMD3<Float>(repeating: Float(scale))
+                    sender.scale = 1.0
+                }
+            }
+        }
+
+        @objc func handlePan(_ sender: UIPanGestureRecognizer) {
+            guard let arView = sender.view as? ARView else { return }
+            let translation = sender.translation(in: arView)
+            
+            if let modelEntity = modelEntity {
+                let currentPosition = modelEntity.position
+                if sender.state == .changed {
+                    modelEntity.position = currentPosition + [Float(translation.x) * 0.001, 0, Float(translation.y) * 0.001]
+                    sender.setTranslation(.zero, in: arView)
+                }
+            }
         }
     }
 }
 
+// ARCoachingOverlayView extension for better plane detection guidance
 extension ARView {
-    func setupCustomGestures() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleCustomTap))
-        self.addGestureRecognizer(tapGesture)
-    }
-
-    @objc func handleCustomTap(_ sender: UITapGestureRecognizer) {
-        let location = sender.location(in: self)
-        if let entity = self.entity(at: location) {
-            print("Entity already exists at this location")
-            return
-        }
-        
-        let raycastQuery = self.makeRaycastQuery(from: location, allowing: .existingPlaneGeometry, alignment: .any)
-        if let raycastResult = self.session.raycast(raycastQuery!).first {
-            let anchor = AnchorEntity(world: raycastResult.worldTransform)
-            self.scene.addAnchor(anchor)
-            print("Anchor added at raycast location")
-        } else {
-            print("Raycast did not hit any surface")
-        }
+    func addCoaching() {
+        let coachingOverlay = ARCoachingOverlayView()
+        coachingOverlay.session = self.session
+        coachingOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        coachingOverlay.goal = .anyPlane
+        self.addSubview(coachingOverlay)
     }
 }
 
