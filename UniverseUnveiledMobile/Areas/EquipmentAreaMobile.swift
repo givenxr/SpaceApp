@@ -13,7 +13,7 @@ struct EquipmentAreaMobile: View {
         ScrollView {
             Text("Space Exploration \n Equipment")
                 .monospaced()
-                .font(.system(size: 30, weight: .bold))
+                .font(fontForDevice(sizeForiPhone: 30, sizeForiPad: 50))
                 .padding(.top, 50)
                 .multilineTextAlignment(.center)
             
@@ -21,7 +21,7 @@ struct EquipmentAreaMobile: View {
                 VStack {
                     Text("DRAGON")
                         .monospaced()
-                        .font(.system(size: 30, weight: .bold))
+                        .font(fontForDevice(sizeForiPhone: 30, sizeForiPad: 50))
                         .padding(.top, 50)
                     Text("SENDING HUMANS AND CARGO INTO SPACE")
                         .padding(.bottom, 50)
@@ -30,20 +30,22 @@ struct EquipmentAreaMobile: View {
                         Text("The Dragon spacecraft is capable of carrying up to 7 passengers to and from Earth orbit, and beyond...")
                             .padding(.leading, 30)
                             .padding(.trailing, 30)
+                            .font(fontForDevice(sizeForiPhone: 14, sizeForiPad: 20))
                         
                         Text("View the Crew Dragon Interior")
                             .monospaced()
-                            .font(.system(size: 20, weight: .bold))
+                            .font(fontForDevice(sizeForiPhone: 20, sizeForiPad: 30))
                             .padding(.bottom, 30)
                             .padding(.top, 30)
                         
-                        YouTubeView(videoID: "78ATfCaBn6E").frame(width: 360, height: 500)
+                        YouTubeView(videoID: "78ATfCaBn6E")
+                            .frame(width: frameWidthForDevice(), height: frameHeightForDevice())
                         
                         Button(action: {
                             isARPresentedCapsule.toggle()
                         }) {
                             Text("Show Capsule in AR")
-                                .frame(width: 200, height: 50)
+                                .frame(width: buttonWidthForDevice(), height: buttonHeightForDevice())
                                 .background(Color.blue)
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
                                 .cornerRadius(10)
@@ -57,7 +59,7 @@ struct EquipmentAreaMobile: View {
                         
                         Text("FALCON 9")
                             .monospaced()
-                            .font(.system(size: 30, weight: .bold))
+                            .font(fontForDevice(sizeForiPhone: 30, sizeForiPad: 50))
                             .padding(.top, 50)
                         
                         Text("FIRST ORBITAL CLASS ROCKET CAPABLE OF REFLIGHT")
@@ -68,26 +70,28 @@ struct EquipmentAreaMobile: View {
                             Image("galaxynight")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 250, height: 250)
+                                .frame(width: imageWidthForDevice(), height: imageHeightForDevice())
                             
                             Text("Falcon 9 is a reusable, two-stage rocket designed and manufactured by SpaceX...")
                                 .padding(.leading, 30)
                                 .padding(.trailing, 50)
+                                .font(fontForDevice(sizeForiPhone: 14, sizeForiPad: 20))
                             
                             Text("View the Falcon 9 rocket")
                                 .monospaced()
-                                .font(.system(size: 20, weight: .bold))
+                                .font(fontForDevice(sizeForiPhone: 20, sizeForiPad: 30))
                                 .padding(.top, 50)
                                 .padding(.bottom, 30)
                             
-                            YouTubeView(videoID: "Z4TXCZG_NEY").frame(width: 360, height: 500)
+                            YouTubeView(videoID: "Z4TXCZG_NEY")
+                                .frame(width: frameWidthForDevice(), height: frameHeightForDevice())
                         }
                         
                         Button(action: {
                             isARPresentedRocket.toggle()
                         }) {
                             Text("Show Rocket in AR")
-                                .frame(width: 200, height: 50)
+                                .frame(width: buttonWidthForDevice(), height: buttonHeightForDevice())
                                 .background(Color.blue)
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
                                 .cornerRadius(10)
@@ -100,6 +104,38 @@ struct EquipmentAreaMobile: View {
                 }
             }
         }
+    }
+
+    func fontForDevice(sizeForiPhone: CGFloat, sizeForiPad: CGFloat) -> Font {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            return .system(size: sizeForiPad)
+        } else {
+            return .system(size: sizeForiPhone)
+        }
+    }
+
+    func frameWidthForDevice() -> CGFloat {
+        return UIDevice.current.userInterfaceIdiom == .pad ? 720 : 360
+    }
+
+    func frameHeightForDevice() -> CGFloat {
+        return UIDevice.current.userInterfaceIdiom == .pad ? 1000 : 500
+    }
+
+    func buttonWidthForDevice() -> CGFloat {
+        return UIDevice.current.userInterfaceIdiom == .pad ? 400 : 200
+    }
+
+    func buttonHeightForDevice() -> CGFloat {
+        return UIDevice.current.userInterfaceIdiom == .pad ? 100 : 50
+    }
+
+    func imageWidthForDevice() -> CGFloat {
+        return UIDevice.current.userInterfaceIdiom == .pad ? 500 : 250
+    }
+
+    func imageHeightForDevice() -> CGFloat {
+        return UIDevice.current.userInterfaceIdiom == .pad ? 500 : 250
     }
 }
 
@@ -261,3 +297,4 @@ extension ARView {
 #Preview {
     EquipmentAreaMobile()
 }
+

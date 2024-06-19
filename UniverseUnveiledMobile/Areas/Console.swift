@@ -10,11 +10,12 @@ struct ConsoleView: View {
     var body: some View {
         VStack {
             Text("Console")
-                .font(.largeTitle)
+                .font(fontForDevice(sizeForiPhone: 34, sizeForiPad: 50)) // Adjusted font size for iPad
                 .padding(.top, 50)
                 .foregroundColor(colorScheme == .dark ? .white : .black)
             
             Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
+                .font(fontForDevice(sizeForiPhone: 14, sizeForiPad: 20)) // Adjusted font size for iPad
                 .padding()
                 .foregroundColor(colorScheme == .dark ? .white : .black)
             
@@ -22,20 +23,30 @@ struct ConsoleView: View {
                 isShowingAR.toggle()
             }) {
                 Text("Show AR")
+                    .font(fontForDevice(sizeForiPhone: 16, sizeForiPad: 24)) // Adjusted font size for iPad
                     .foregroundColor(colorScheme == .dark ? .white : .black)
                     .padding()
                     .background(Color.blue)
                     .cornerRadius(10)
             }
-            .sheet(isPresented: $isShowingAR, content: {
+            /*.sheet(isPresented: $isShowingAR, content: {
                 CustomARViewContainer()
-            })
+            })*/
         }
         .padding()
     }
+
+    func fontForDevice(sizeForiPhone: CGFloat, sizeForiPad: CGFloat) -> Font {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            return .system(size: sizeForiPad)
+        } else {
+            return .system(size: sizeForiPhone)
+        }
+    }
 }
 
-struct CustomARViewContainer: UIViewRepresentable {
+
+/*struct CustomARViewContainer: UIViewRepresentable {
     @Environment(\.presentationMode) var presentationMode
 
     func makeUIView(context: Context) -> ARView {
@@ -145,7 +156,7 @@ extension ARView {
         coachingOverlay.goal = .anyPlane
         self.addSubview(coachingOverlay)
     }
-}
+}*/
 
 #Preview {
     ConsoleView()

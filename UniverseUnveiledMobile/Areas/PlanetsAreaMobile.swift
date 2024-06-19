@@ -6,7 +6,7 @@
 //
 
 
-import SwiftUI
+/*import SwiftUI
 import SceneKit
 import RealityKit
 
@@ -53,7 +53,7 @@ struct PlanetDetailView: View {
 struct PlanetsAreaMobile: View {
     @Environment(\.colorScheme) var colorScheme
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
 //                LinearGradient(
 //                    gradient: Gradient(colors: [Color.white, Color.black]),
@@ -133,5 +133,134 @@ struct PlanetsAreaMobile_Previews: PreviewProvider {
     static var previews: some View {
         PlanetsAreaMobile()
     }
+} */
+
+
+import SwiftUI
+import SceneKit
+import RealityKit
+
+struct PlanetSceneView: UIViewRepresentable {
+    var scene: SCNScene?
+
+    func makeUIView(context: Context) -> SCNView {
+        let sceneView = SCNView()
+        sceneView.scene = scene
+        sceneView.autoenablesDefaultLighting = true
+        sceneView.allowsCameraControl = true // Enables user interaction (rotation, scaling)
+        sceneView.backgroundColor = .clear
+        return sceneView
+    }
+
+    func updateUIView(_ uiView: SCNView, context: Context) {}
 }
 
+struct PlanetDetailView: View {
+    var planet: Planets
+
+    var body: some View {
+        @Environment(\.colorScheme) var colorScheme
+        VStack {
+            Text(planet.rawValue)
+                .font(fontForDevice(sizeForiPhone: 40, sizeForiPad: 60, weight: .bold))
+                .padding(.top, 20)
+                .foregroundColor(colorScheme == .dark ? .white : .black)
+
+            PlanetSceneView(scene: SCNScene(named: "\(planet.rawValue).usdz"))
+                .frame(width: sceneViewWidthForDevice(), height: sceneViewHeightForDevice())
+                .scaledToFit()
+                .padding(.bottom, 50)
+
+            Text(planet.about)
+                .padding()
+                .font(fontForDevice(sizeForiPhone: 16, sizeForiPad: 22, weight: .regular))
+                .foregroundColor(colorScheme == .dark ? .white : .black)
+        }
+        .navigationBarTitle(planet.rawValue, displayMode: .inline)
+        .foregroundColor(colorScheme == .dark ? .white : .black)
+    }
+}
+
+struct PlanetsAreaMobile: View {
+    @Environment(\.colorScheme) var colorScheme
+
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                VStack {
+                    ScrollView(.vertical) {
+                        Text("Explore and learn more about the 9 planets in our solar system.")
+                            .foregroundColor(colorScheme == .dark ? .white : .black)
+                            .padding(.bottom, 40)
+                            .padding(.top, 30)
+                            .font(fontForDevice(sizeForiPhone: 20, sizeForiPad: 28, weight: .bold))
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 10)
+
+                        ForEach(Planets.allCases, id: \.self) { planet in
+                            NavigationLink(destination: {
+                                switch planet {
+                                case .Mercury:
+                                    return AnyView(Mercury())
+                                case .Venus:
+                                    return AnyView(Venus())
+                                case .Earth:
+                                    return AnyView(Earth())
+                                case .Mars:
+                                    return AnyView(Mars())
+                                case .Jupiter:
+                                    return AnyView(Jupiter())
+                                case .Saturn:
+                                    return AnyView(Saturn())
+                                case .Uranus:
+                                    return AnyView(Uranus())
+                                case .Neptune:
+                                    return AnyView(Neptune())
+                                case .Pluto:
+                                    return AnyView(Pluto())
+                                }
+                            }()) {
+                                VStack {
+                                    Text(planet.rawValue)
+                                        .font(fontForDevice(sizeForiPhone: 30, sizeForiPad: 40, weight: .bold))
+                                        .padding(.top, 20)
+                                        .foregroundColor(colorScheme == .dark ? .white : .black)
+
+                                    PlanetSceneView(scene: SCNScene(named: "\(planet.rawValue).usdz"))
+                                        .frame(width: sceneViewWidthForDevice(), height: sceneViewHeightForDevice())
+                                        .scaledToFit()
+                                        .padding(.bottom, 50)
+
+                                    Text(planet.about)
+                                        .padding(.horizontal, 5)
+                                        .padding()
+                                        .font(fontForDevice(sizeForiPhone: 16, sizeForiPad: 22, weight: .regular))
+                                        .foregroundColor(colorScheme == .dark ? .white : .black)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Helper functions to determine font and element sizes
+func fontForDevice(sizeForiPhone: CGFloat, sizeForiPad: CGFloat, weight: Font.Weight) -> Font {
+    return UIDevice.current.userInterfaceIdiom == .pad ? .system(size: sizeForiPad, weight: weight) : .system(size: sizeForiPhone, weight: weight)
+}
+
+func sceneViewWidthForDevice() -> CGFloat {
+    return UIDevice.current.userInterfaceIdiom == .pad ? 300 : 200
+}
+
+func sceneViewHeightForDevice() -> CGFloat {
+    return UIDevice.current.userInterfaceIdiom == .pad ? 300 : 200
+}
+
+struct PlanetsAreaMobile_Previews: PreviewProvider {
+    static var previews: some View {
+        PlanetsAreaMobile()
+    }
+}

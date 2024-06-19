@@ -26,7 +26,7 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        NavigationView {
+        NavigationStack {
             
             VStack {
                 // Top section with an image
@@ -56,7 +56,7 @@ struct ContentView: View {
                                 .cornerRadius(10)
                         }
                         
-                        NavigationLink(destination: ConsoleView().navigationBarHidden(true)) {
+                        NavigationLink(destination: EarthAreaMobile().navigationBarHidden(true)) {
                             Text("Earth")
                                 .frame(width: 150, height: 150)
                                 .background(Color.green)
