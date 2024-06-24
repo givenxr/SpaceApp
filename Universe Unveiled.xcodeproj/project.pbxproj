@@ -88,6 +88,7 @@
 		DC08151A2BE4321B0028968B /* Capsule.usdz in Resources */ = {isa = PBXBuildFile; fileRef = DC0815182BE432170028968B /* Capsule.usdz */; };
 		DCB201F82BEE33C6005E42D0 /* Rocket.usdz in Resources */ = {isa = PBXBuildFile; fileRef = DCB201F72BEE33C6005E42D0 /* Rocket.usdz */; };
 		DCB202392C17A186005E42D0 /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = DCB202382C17A186005E42D0 /* FocusEntity */; };
+		DCB2023C2C242F77005E42D0 /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = DCB2023B2C242F77005E42D0 /* FocusEntity */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -223,6 +224,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCB2023C2C242F77005E42D0 /* FocusEntity in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,6 +411,7 @@
 				8193B5BA2B8DF5BA009823BF /* UniverseUnveiledMobileTests */,
 				8193B5C42B8DF5BA009823BF /* UniverseUnveiledMobileUITests */,
 				81AD7D692B2DF65900CA275B /* Products */,
+				DCB2023A2C242F77005E42D0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -504,6 +507,13 @@
 			path = System;
 			sourceTree = "<group>";
 		};
+		DCB2023A2C242F77005E42D0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -559,6 +569,9 @@
 				8193B5C32B8DF5BA009823BF /* PBXTargetDependency */,
 			);
 			name = UniverseUnveiledMobileUITests;
+			packageProductDependencies = (
+				DCB2023B2C242F77005E42D0 /* FocusEntity */,
+			);
 			productName = UniverseUnveiledMobileUITests;
 			productReference = 8193B5C12B8DF5BA009823BF /* UniverseUnveiledMobileUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -836,7 +849,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.1;
 				DEVELOPMENT_ASSET_PATHS = "\"UniverseUnveiledMobile/Preview Content\"";
 				DEVELOPMENT_TEAM = 5CND4GK432;
 				ENABLE_PREVIEWS = YES;
@@ -854,7 +867,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.4;
+				MARKETING_VERSION = 1.3.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.africantechno.UniverseUnveiledMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -874,7 +887,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.1;
 				DEVELOPMENT_ASSET_PATHS = "\"UniverseUnveiledMobile/Preview Content\"";
 				DEVELOPMENT_TEAM = 5CND4GK432;
 				ENABLE_PREVIEWS = YES;
@@ -892,7 +905,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.4;
+				MARKETING_VERSION = 1.3.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.africantechno.UniverseUnveiledMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -925,7 +938,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UniverseUnveiledMobile.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UniverseUnveiledMobile";
 			};
 			name = Debug;
@@ -949,7 +962,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UniverseUnveiledMobile.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UniverseUnveiledMobile";
 			};
 			name = Release;
@@ -1301,6 +1314,11 @@
 			productName = RealityKitContent;
 		};
 		DCB202382C17A186005E42D0 /* FocusEntity */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DCB202372C17A186005E42D0 /* XCRemoteSwiftPackageReference "FocusEntity" */;
+			productName = FocusEntity;
+		};
+		DCB2023B2C242F77005E42D0 /* FocusEntity */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DCB202372C17A186005E42D0 /* XCRemoteSwiftPackageReference "FocusEntity" */;
 			productName = FocusEntity;

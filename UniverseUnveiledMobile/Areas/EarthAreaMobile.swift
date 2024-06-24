@@ -173,199 +173,110 @@ extension ARView {
 */
 
 import SwiftUI
-import RealityKit
-import ARKit
 
 struct EarthAreaMobile: View {
+    @Environment(\.presentationMode) var presentationMode
     @State private var isShowingAR = false
-    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                Text("Discover the wonders of our home planet, Earth. It is the only known inhabitable planet for humans, providing the perfect conditions for life.")
-                    .foregroundColor(colorScheme == .dark ? .white : .black)
-                    .padding(.bottom, 40)
-                    .padding(.top, 30)
-                    .font(fontForDevice(sizeForiPhone: 20, sizeForiPad: 28, weight: .bold))
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 10)
+        ZStack {
+            SpaceBackgroundView()
+            
+            ScrollView {
+                VStack(spacing: 30) {
+                    Text("Discover Earth")
+                        .font(fontForDevice(sizeForiPhone: 40, sizeForiPad: 60, weight: .bold))
+                        .foregroundColor(.white)
+                        .padding(.top, 30)
+                    
+                    Text("Explore the wonders of our home planet, Earth. It is the only known inhabitable planet for humans, providing the perfect conditions for life.")
+                        .foregroundColor(.white)
+                        .padding(.horizontal)
+                        .font(fontForDevice(sizeForiPhone: 18, sizeForiPad: 24, weight: .medium))
+                        .multilineTextAlignment(.center)
+                    
+                    EarthInfoCard()
+                    
+                    Button(action: {
+                        isShowingAR.toggle()
+                    }) {
+                        Text("Show in AR")
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.blue)
+                            .cornerRadius(10)
+                    }
+                    .frame(width: UIDevice.current.userInterfaceIdiom == .pad ? 300 : 200,
+                           height: UIDevice.current.userInterfaceIdiom == .pad ? 75 : 50)
+                    // Commenting out AR functionality for now
+                    // .sheet(isPresented: $isShowingAR, content: {
+                    //     SLAMARViewContainer(modelName: "Earth")
+                    // })
+                    
+                    EarthFeatureCard(title: "WATER", imageName: "water", description: "Known as the 'Blue Marble,' Earth showcases a beautiful blue appearance from outer space, mainly because of its oceans that cover about 70% of the surface...")
+                    
+                    EarthFeatureCard(title: "Diverse Ecosystems", imageName: "biodiversity", description: "Earth hosts an incredible variety of ecosystems, from lush rainforests to arid deserts, each supporting unique forms of life...")
+                    
+                    EarthFeatureCard(title: "Population", imageName: "Population2", description: "With over 7.9 billion inhabitants, Earth is home to a diverse human population spread across various cultures, languages, and societies...")
+                }
+                .padding()
             }
-            .padding()
-        
-            HStack {
-                Text("Earth, our celestial oasis, is a vibrant blue gem in the cosmos. With diverse ecosystems, vast oceans, and a life-sustaining atmosphere, it orbits the sun, accompanied by its faithful companion, the Moon, illuminating the night sky.\n\nThe Moon, Earth's only natural satellite, plays a vital role in our planet's dynamics. Its gravitational forces shape ocean tides, stabilize Earth's rotation, and contribute to climate stability. The Moon's presence has significant ecological benefits, influencing biodiversity and providing optimal conditions for life to flourish.")
-                    .foregroundColor(colorScheme == .dark ? .white : .black)
-                    .padding(.horizontal, 5)
-                    .font(fontForDevice(sizeForiPhone: 14, sizeForiPad: 18, weight: .regular))
-            }
-            .padding()
-            
-            Button(action: {
-                isShowingAR.toggle()
-            }) {
-                Text("Show in AR")
-                    .foregroundColor(colorScheme == .dark ? .white : .black)
-                    .padding()
-                    .background(Color.blue)
-                    .cornerRadius(10)
-            }
-            .padding(.bottom, 20)
-            .frame(width: buttonWidthForDevice(), height: buttonHeightForDevice())
-            .sheet(isPresented: $isShowingAR, content: {
-                SLAMARViewContainer(modelName: "Earth")
-            })
-            
-            Text("WATER")
-                .monospaced()
-                .font(fontForDevice(sizeForiPhone: 30, sizeForiPad: 40, weight: .bold))
-                .padding(.top, 50)
-                .padding(.bottom, 10)
-                .foregroundColor(colorScheme == .dark ? .white : .black)
-            
-            VStack {
-                Image("water")
-                    .resizable()
-                    .frame(width: imageWidthForDevice(), height: imageHeightForDevice())
-                    .padding(.horizontal, 20)
-                
-                Text("Known as the 'Blue Marble,' Earth showcases a beautiful blue appearance from outer space, mainly because of its oceans that cover about 70% of the surface...")
-                    .padding(.horizontal, 15)
-                    .foregroundColor(colorScheme == .dark ? .white : .black)
-                    .font(fontForDevice(sizeForiPhone: 14, sizeForiPad: 18, weight: .regular))
-            }
-            .padding(.horizontal, 5)
-            
-            Text("Diverse Ecosystems")
-                .monospaced()
-                .font(fontForDevice(sizeForiPhone: 30, sizeForiPad: 40, weight: .bold))
-                .padding(.top, 50)
-                .padding(.bottom, 10)
-                .foregroundColor(colorScheme == .dark ? .white : .black)
-            
-            VStack {
-                Text("Known as the 'Blue Marble,' Earth showcases a beautiful blue appearance from outer space, mainly because of its oceans that cover about 70% of the surface...")
-                    .padding(.horizontal, 15)
-                    .foregroundColor(colorScheme == .dark ? .white : .black)
-                    .font(fontForDevice(sizeForiPhone: 14, sizeForiPad: 18, weight: .regular))
-                
-                Image("biodiversity")
-                    .resizable()
-                    .frame(width: imageWidthForDevice(), height: imageHeightForDevice())
-                    .padding(.trailing, 20)
-            }
-            .padding(.horizontal, 5)
-            
-            Text("Population")
-                .monospaced()
-                .font(fontForDevice(sizeForiPhone: 30, sizeForiPad: 40, weight: .bold))
-                .padding(.top, 50)
-                .padding(.bottom, 10)
-                .foregroundColor(colorScheme == .dark ? .white : .black)
-            
-            VStack {
-                Text("Known as the 'Blue Marble,' Earth showcases a beautiful blue appearance from outer space, mainly because of its oceans that cover about 70% of the surface...")
-                    .padding(.horizontal, 15)
-                    .foregroundColor(colorScheme == .dark ? .white : .black)
-                    .font(fontForDevice(sizeForiPhone: 14, sizeForiPad: 18, weight: .regular))
-                
-                Image("Population2")
-                    .resizable()
-                    .frame(width: imageWidthForDevice(), height: imageHeightForDevice())
-                    .padding(.trailing, 20)
-            }
-            .padding(.horizontal, 5)
         }
+        .navigationBarTitle("Earth", displayMode: .inline)
+        .navigationBarBackButtonHidden(false)
     }
     
-    func fontForDevice(sizeForiPhone: CGFloat, sizeForiPad: CGFloat, weight: Font.Weight) -> Font {
-        return UIDevice.current.userInterfaceIdiom == .pad ? .system(size: sizeForiPad, weight: weight) : .system(size: sizeForiPhone, weight: weight)
-    }
-
-    func buttonWidthForDevice() -> CGFloat {
-        return UIDevice.current.userInterfaceIdiom == .pad ? 300 : 200
-    }
-
-    func buttonHeightForDevice() -> CGFloat {
-        return UIDevice.current.userInterfaceIdiom == .pad ? 75 : 50
-    }
-
-    func imageWidthForDevice() -> CGFloat {
-        return UIDevice.current.userInterfaceIdiom == .pad ? 400 : 300
-    }
-
-    func imageHeightForDevice() -> CGFloat {
-        return UIDevice.current.userInterfaceIdiom == .pad ? 400 : 300
+    // Local helper function
+    private func fontForDevice(sizeForiPhone: CGFloat, sizeForiPad: CGFloat, weight: Font.Weight) -> Font {
+        return UIDevice.current.userInterfaceIdiom == .pad ?
+            .system(size: sizeForiPad, weight: weight) :
+            .system(size: sizeForiPhone, weight: weight)
     }
 }
 
-struct SLAMARViewContainer: UIViewRepresentable {
-    @Environment(\.presentationMode) var presentationMode
-    let modelName: String
-    
-    func makeUIView(context: Context) -> ARView {
-        let arView = ARView(frame: .zero)
-        
-        // Configure the AR session for plane detection
-        let config = ARWorldTrackingConfiguration()
-        config.planeDetection = [.horizontal, .vertical]
-        arView.session.run(config, options: [])
-        
-        arView.setupGestures()
-        context.coordinator.setupARView(arView: arView, modelName: modelName)
-        
-        return arView
-    }
-    
-    func updateUIView(_ uiView: ARView, context: Context) {}
-    
-    func makeCoordinator() -> Coordinator {
-        Coordinator()
-    }
-    
-    class Coordinator {
-        func setupARView(arView: ARView, modelName: String) {
-            do {
-                let modelEntity = try ModelEntity.loadModel(named: modelName + ".usdz")
-                modelEntity.generateCollisionShapes(recursive: true)
-                arView.installGestures([.translation, .rotation, .scale], for: modelEntity)
-                
-                let anchor = AnchorEntity(world: [0, 0, 0])
-                anchor.addChild(modelEntity)
-                arView.scene.addAnchor(anchor)
-                
-                print("Model loaded and added to anchor")
-            } catch {
-                print("Failed to load the model:", error)
-            }
+struct EarthInfoCard: View {
+    var body: some View {
+        VStack {
+            Text("Earth, our celestial oasis, is a vibrant blue gem in the cosmos. With diverse ecosystems, vast oceans, and a life-sustaining atmosphere, it orbits the sun, accompanied by its faithful companion, the Moon, illuminating the night sky.")
+                .foregroundColor(.white)
+                .padding()
+                .font(.system(size: UIDevice.current.userInterfaceIdiom == .pad ? 20 : 16, weight: .regular))
         }
+        .background(Color.black.opacity(0.5))
+        .cornerRadius(15)
+        .padding()
     }
 }
 
-extension ARView {
-    func setupGestures() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        self.addGestureRecognizer(tapGesture)
-    }
+struct EarthFeatureCard: View {
+    let title: String
+    let imageName: String
+    let description: String
     
-    @objc func handleTap(_ sender: UITapGestureRecognizer) {
-        let location = sender.location(in: self)
-        if self.entity(at: location) != nil {
-            print("Entity already exists at this location")
-            return
+    var body: some View {
+        VStack(alignment: .leading, spacing: 15) {
+            Text(title)
+                .font(.system(size: UIDevice.current.userInterfaceIdiom == .pad ? 32 : 24, weight: .bold))
+                .foregroundColor(.white)
+            
+            Image(imageName)
+                .resizable()
+                .scaledToFit()
+                .frame(height: 200)
+                .cornerRadius(10)
+            
+            Text(description)
+                .font(.system(size: UIDevice.current.userInterfaceIdiom == .pad ? 20 : 16, weight: .regular))
+                .foregroundColor(.white)
         }
-        
-        let raycastQuery = self.makeRaycastQuery(from: location, allowing: .existingPlaneGeometry, alignment: .any)
-        if let raycastResult = self.session.raycast(raycastQuery!).first {
-            let anchor = AnchorEntity(world: raycastResult.worldTransform)
-            self.scene.addAnchor(anchor)
-            print("Anchor added at raycast location")
-        } else {
-            print("Raycast did not hit any surface")
-        }
+        .padding()
+        .background(Color.black.opacity(0.5))
+        .cornerRadius(15)
     }
 }
 
 #Preview {
     EarthAreaMobile()
 }
+
+
