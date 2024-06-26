@@ -177,6 +177,7 @@ import SwiftUI
 struct EarthAreaMobile: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var isShowingAR = false
+    @State private var selectedFeature: EarthFeature?
     
     var body: some View {
         ZStack {
@@ -200,30 +201,31 @@ struct EarthAreaMobile: View {
                     Button(action: {
                         isShowingAR.toggle()
                     }) {
-                        Text("Show in AR")
-                            .foregroundColor(.white)
-                            .padding()
-                            .background(Color.blue)
-                            .cornerRadius(10)
+                        HStack {
+                            Image(systemName: "arkit")
+                                .font(.system(size: UIDevice.current.userInterfaceIdiom == .pad ? 24 : 18))
+                            Text("Show in AR")
+                        }
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.blue)
+                        .cornerRadius(10)
                     }
                     .frame(width: UIDevice.current.userInterfaceIdiom == .pad ? 300 : 200,
                            height: UIDevice.current.userInterfaceIdiom == .pad ? 75 : 50)
-                    // Commenting out AR functionality for now
-                    // .sheet(isPresented: $isShowingAR, content: {
-                    //     SLAMARViewContainer(modelName: "Earth")
-                    // })
                     
-                    EarthFeatureCard(title: "WATER", imageName: "water", description: "Known as the 'Blue Marble,' Earth showcases a beautiful blue appearance from outer space, mainly because of its oceans that cover about 70% of the surface...")
-                    
-                    EarthFeatureCard(title: "Diverse Ecosystems", imageName: "biodiversity", description: "Earth hosts an incredible variety of ecosystems, from lush rainforests to arid deserts, each supporting unique forms of life...")
-                    
-                    EarthFeatureCard(title: "Population", imageName: "Population2", description: "With over 7.9 billion inhabitants, Earth is home to a diverse human population spread across various cultures, languages, and societies...")
+                    EarthFeatureCard(feature: EarthFeature.water, selectedFeature: $selectedFeature)
+                    EarthFeatureCard(feature: EarthFeature.ecosystems, selectedFeature: $selectedFeature)
+                    EarthFeatureCard(feature: EarthFeature.population, selectedFeature: $selectedFeature)
                 }
                 .padding()
             }
         }
         .navigationBarTitle("Earth", displayMode: .inline)
         .navigationBarBackButtonHidden(false)
+        .sheet(item: $selectedFeature) { feature in
+            FeatureDetailView(feature: feature)
+        }
     }
     
     // Local helper function
@@ -249,34 +251,98 @@ struct EarthInfoCard: View {
 }
 
 struct EarthFeatureCard: View {
-    let title: String
-    let imageName: String
-    let description: String
+    let feature: EarthFeature
+    @Binding var selectedFeature: EarthFeature?
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 15) {
-            Text(title)
-                .font(.system(size: UIDevice.current.userInterfaceIdiom == .pad ? 32 : 24, weight: .bold))
-                .foregroundColor(.white)
-            
-            Image(imageName)
-                .resizable()
-                .scaledToFit()
-                .frame(height: 200)
-                .cornerRadius(10)
-            
-            Text(description)
-                .font(.system(size: UIDevice.current.userInterfaceIdiom == .pad ? 20 : 16, weight: .regular))
-                .foregroundColor(.white)
+        Button(action: {
+            selectedFeature = feature
+        }) {
+            VStack(alignment: .leading, spacing: 15) {
+                Text(feature.title)
+                    .font(.system(size: UIDevice.current.userInterfaceIdiom == .pad ? 32 : 24, weight: .bold))
+                    .foregroundColor(.white)
+                
+                Image(feature.imageName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 200)
+                    .cornerRadius(10)
+                
+                Text(feature.shortDescription)
+                    .font(.system(size: UIDevice.current.userInterfaceIdiom == .pad ? 20 : 16, weight: .regular))
+                    .foregroundColor(.white)
+                    .lineLimit(3)
+                    .truncationMode(.tail)
+            }
+            .padding()
+            .background(Color.black.opacity(0.5))
+            .cornerRadius(15)
         }
-        .padding()
-        .background(Color.black.opacity(0.5))
-        .cornerRadius(15)
     }
+}
+
+struct FeatureDetailView: View {
+    let feature: EarthFeature
+    @Environment(\.presentationMode) var presentationMode
+    
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    Image(feature.imageName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 200)
+                        .cornerRadius(10)
+                    
+                    Text(feature.title)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    
+                    Text(feature.fullDescription)
+                        .font(.body)
+                }
+                .padding()
+            }
+            .navigationBarTitle(feature.title, displayMode: .inline)
+            .navigationBarItems(trailing: Button("Done") {
+                presentationMode.wrappedValue.dismiss()
+            })
+        }
+    }
+}
+
+struct EarthFeature: Identifiable {
+    let id = UUID()
+    let title: String
+    let imageName: String
+    let shortDescription: String
+    let fullDescription: String
+    
+    static let water = EarthFeature(
+        title: "WATER",
+        imageName: "water",
+        shortDescription: "Known as the 'Blue Marble,' Earth showcases a beautiful blue appearance from outer space, mainly because of its oceans that cover about 70% of the surface...",
+        fullDescription: "Known as the 'Blue Marble,' Earth showcases a beautiful blue appearance from outer space, mainly because of its oceans that cover about 70% of the surface. These oceans, like the Pacific, Atlantic, Indian, Southern, and Arctic, create the striking blue color we see. They're not just a visual wonder; they're crucial for life. \n\nUnderneath the surface, the oceans host a variety of life, from tiny creatures to large marine animals. Besides being home to diverse species, the oceans help control the Earth's climate. The way they move, their temperatures, and the life they hold all work together to influence the weather and maintain a balance that supports life on our planet. So, when we look at the 'Blue Marble,' it's more than just a pretty sight – it's a reflection of the vibrant life and interconnected systems that make Earth a special place."
+    )
+    
+    static let ecosystems = EarthFeature(
+        title: "Diverse Ecosystems",
+        imageName: "biodiversity",
+        shortDescription: "Earth hosts an incredible variety of ecosystems, from lush rainforests to arid deserts, each supporting unique forms of life...",
+        fullDescription: "Earth hosts an incredible variety of ecosystems, from lush rainforests to arid deserts, each supporting unique forms of life. These diverse environments showcase the adaptability and resilience of life on our planet. \n\nRainforests, often called the 'lungs of the Earth,' are home to an astounding array of plant and animal species. They play a crucial role in regulating the global climate and water cycle. \n\nDeserts, contrary to popular belief, are teeming with life adapted to harsh conditions. These ecosystems demonstrate nature's ability to thrive in extreme environments. \n\nGrasslands, tundra, coral reefs, and countless other ecosystems each contribute to the rich tapestry of life on Earth. This biodiversity is not just beautiful—it's essential for the planet's health and humanity's wellbeing, providing food, medicine, and countless other resources."
+    )
+    
+    static let population = EarthFeature(
+        title: "Population",
+        imageName: "Population2",
+        shortDescription: "With over 7.9 billion inhabitants, Earth is home to a diverse human population spread across various cultures, languages, and societies...",
+        fullDescription: "With over 7.9 billion inhabitants, Earth is home to a diverse human population spread across various cultures, languages, and societies. This vast tapestry of humanity showcases the incredible adaptability and creativity of our species. \n\nFrom bustling megacities to remote villages, human settlements dot the globe, each with its unique traditions, customs, and ways of life. Over 7,000 languages are spoken worldwide, reflecting the rich diversity of human expression and thought. \n\nThis global population, however, also presents challenges. Issues such as resource distribution, environmental impact, and sustainable development are at the forefront of global concerns. As we continue to grow and evolve as a species, finding ways to coexist harmoniously with each other and our planet remains a crucial task for humanity."
+    )
 }
 
 #Preview {
     EarthAreaMobile()
 }
-
 

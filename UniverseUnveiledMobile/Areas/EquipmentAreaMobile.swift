@@ -10,134 +10,182 @@ struct EquipmentAreaMobile: View {
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
-        ScrollView {
-            Text("Space Exploration \n Equipment")
-                .monospaced()
-                .font(fontForDevice(sizeForiPhone: 30, sizeForiPad: 50))
-                .padding(.top, 50)
-                .multilineTextAlignment(.center)
+        ZStack {
+            // Animated starry background
+            StarryBackground()
             
-            VStack {
-                VStack {
-                    Text("DRAGON")
-                        .monospaced()
-                        .font(fontForDevice(sizeForiPhone: 30, sizeForiPad: 50))
+            ScrollView {
+                VStack(spacing: 30) {
+                    // Title
+                    Text("Space Exploration\nEquipment")
+                        .font(.custom("SpaceGrotesk-Bold", size: fontSizeForDevice(sizeForiPhone: 36, sizeForiPad: 56)))
+                        .foregroundColor(.white)
                         .padding(.top, 50)
-                    Text("SENDING HUMANS AND CARGO INTO SPACE")
-                        .padding(.bottom, 50)
+                        .multilineTextAlignment(.center)
+                        .shadow(color: .blue, radius: 2, x: 0, y: 2)
                     
-                    VStack {
-                        Text("The Dragon spacecraft is capable of carrying up to 7 passengers to and from Earth orbit, and beyond...")
-                            .padding(.leading, 30)
-                            .padding(.trailing, 30)
-                            .font(fontForDevice(sizeForiPhone: 14, sizeForiPad: 20))
-                        
-                        Text("View the Crew Dragon Interior")
-                            .monospaced()
-                            .font(fontForDevice(sizeForiPhone: 20, sizeForiPad: 30))
-                            .padding(.bottom, 30)
-                            .padding(.top, 30)
-                        
-                        YouTubeView(videoID: "78ATfCaBn6E")
-                            .frame(width: frameWidthForDevice(), height: frameHeightForDevice())
-                        
-                        Button(action: {
-                            isARPresentedCapsule.toggle()
-                        }) {
-                            Text("Show Capsule in AR")
-                                .frame(width: buttonWidthForDevice(), height: buttonHeightForDevice())
-                                .background(Color.blue)
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                                .cornerRadius(10)
-                                .padding()
-                        }
-                        .sheet(isPresented: $isARPresentedCapsule) {
-                            ARViewContainer1(modelName: "Capsule")
-                        }
-                        
-                        Divider()
-                        
-                        Text("FALCON 9")
-                            .monospaced()
-                            .font(fontForDevice(sizeForiPhone: 30, sizeForiPad: 50))
-                            .padding(.top, 50)
-                        
-                        Text("FIRST ORBITAL CLASS ROCKET CAPABLE OF REFLIGHT")
-                            .multilineTextAlignment(.center)
-                            .padding(.bottom, 30)
-                        
-                        VStack {
-                            Image("galaxynight")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: imageWidthForDevice(), height: imageHeightForDevice())
-                            
-                            Text("Falcon 9 is a reusable, two-stage rocket designed and manufactured by SpaceX...")
-                                .padding(.leading, 30)
-                                .padding(.trailing, 50)
-                                .font(fontForDevice(sizeForiPhone: 14, sizeForiPad: 20))
-                            
-                            Text("View the Falcon 9 rocket")
-                                .monospaced()
-                                .font(fontForDevice(sizeForiPhone: 20, sizeForiPad: 30))
-                                .padding(.top, 50)
-                                .padding(.bottom, 30)
-                            
-                            YouTubeView(videoID: "Z4TXCZG_NEY")
-                                .frame(width: frameWidthForDevice(), height: frameHeightForDevice())
-                        }
-                        
-                        Button(action: {
-                            isARPresentedRocket.toggle()
-                        }) {
-                            Text("Show Rocket in AR")
-                                .frame(width: buttonWidthForDevice(), height: buttonHeightForDevice())
-                                .background(Color.blue)
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                                .cornerRadius(10)
-                                .padding()
-                        }
-                        .sheet(isPresented: $isARPresentedRocket) {
-                            ARViewContainer1(modelName: "Rocket")
-                        }
-                    }
+                    // Dragon section
+                    SpaceEquipmentSection(
+                        title: "DRAGON",
+                        subtitle: "SENDING HUMANS AND CARGO INTO SPACE",
+                        description: "The Dragon spacecraft is capable of carrying up to 7 passengers to and from Earth orbit, and beyond. It's the only spacecraft currently flying that's capable of returning significant amounts of cargo to Earth.",
+                        videoID: "78ATfCaBn6E",
+                        arButtonText: "Show Capsule in AR",
+                        isARPresented: $isARPresentedCapsule,
+                        modelName: "Capsule"
+                    )
+                    
+                    // Falcon 9 section
+                    SpaceEquipmentSection(
+                        title: "FALCON 9",
+                        subtitle: "FIRST ORBITAL CLASS ROCKET CAPABLE OF REFLIGHT",
+                        description: "Falcon 9 is a reusable, two-stage rocket designed and manufactured by SpaceX for the reliable and safe transport of people and payloads into Earth orbit and beyond.",
+                        videoID: "Z4TXCZG_NEY",
+                        arButtonText: "Show Rocket in AR",
+                        isARPresented: $isARPresentedRocket,
+                        modelName: "Rocket"
+                    )
+                    
+                    // Fun facts section
+                    FunFactsCarousel()
                 }
+                .padding()
             }
         }
+        .background(Color.black.edgesIgnoringSafeArea(.all))
     }
-
-    func fontForDevice(sizeForiPhone: CGFloat, sizeForiPad: CGFloat) -> Font {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            return .system(size: sizeForiPad)
-        } else {
-            return .system(size: sizeForiPhone)
-        }
-    }
-
-    func frameWidthForDevice() -> CGFloat {
-        return UIDevice.current.userInterfaceIdiom == .pad ? 720 : 360
-    }
-
-    func frameHeightForDevice() -> CGFloat {
-        return UIDevice.current.userInterfaceIdiom == .pad ? 1000 : 500
-    }
-
-    func buttonWidthForDevice() -> CGFloat {
-        return UIDevice.current.userInterfaceIdiom == .pad ? 400 : 200
-    }
-
-    func buttonHeightForDevice() -> CGFloat {
-        return UIDevice.current.userInterfaceIdiom == .pad ? 100 : 50
-    }
-
-    func imageWidthForDevice() -> CGFloat {
-        return UIDevice.current.userInterfaceIdiom == .pad ? 500 : 250
-    }
-
-    func imageHeightForDevice() -> CGFloat {
-        return UIDevice.current.userInterfaceIdiom == .pad ? 500 : 250
+    
+    func fontSizeForDevice(sizeForiPhone: CGFloat, sizeForiPad: CGFloat) -> CGFloat {
+        UIDevice.current.userInterfaceIdiom == .pad ? sizeForiPad : sizeForiPhone
     }
 }
+
+struct SpaceEquipmentSection: View {
+    let title: String
+    let subtitle: String
+    let description: String
+    let videoID: String
+    let arButtonText: String
+    @Binding var isARPresented: Bool
+    let modelName: String
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            Text(title)
+                .font(.custom("SpaceGrotesk-Bold", size: 30))
+                .foregroundColor(.white)
+            
+            Text(subtitle)
+                .font(.custom("SpaceGrotesk-Regular", size: 16))
+                .foregroundColor(.gray)
+                .multilineTextAlignment(.center)
+            
+            Text(description)
+                .font(.custom("SpaceGrotesk-Regular", size: 16))
+                .foregroundColor(.white)
+                .padding()
+                .background(Color.blue.opacity(0.1))
+                .cornerRadius(10)
+            
+            YouTubeView(videoID: videoID)
+                .frame(height: 250)
+                .cornerRadius(15)
+                .shadow(color: .blue.opacity(0.5), radius: 10)
+            
+            Button(action: {
+                isARPresented.toggle()
+            }) {
+                HStack {
+                    Image(systemName: "arkit")
+                    Text(arButtonText)
+                }
+                .padding()
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                .shadow(color: .blue.opacity(0.5), radius: 5)
+            }
+            .sheet(isPresented: $isARPresented) {
+                ARViewContainer1(modelName: modelName)
+            }
+        }
+        .padding()
+        .background(Color.black.opacity(0.7))
+        .cornerRadius(20)
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(Color.blue.opacity(0.5), lineWidth: 2)
+        )
+    }
+}
+
+struct FunFactsCarousel: View {
+    let facts = [
+        "The Dragon capsule can carry up to 7 astronauts.",
+        "Falcon 9 has completed over 100 successful launches.",
+        "SpaceX's Starship is designed for interplanetary travel.",
+        "The Dragon spacecraft is the first private spacecraft to dock with the ISS.",
+        "Falcon 9's first stage is designed to be reused up to 10 times."
+    ]
+    
+    var body: some View {
+        VStack {
+            Text("Fun Facts")
+                .font(.custom("SpaceGrotesk-Bold", size: 24))
+                .foregroundColor(.white)
+                .padding(.top, 10)
+            
+            TabView {
+                ForEach(facts, id: \.self) { fact in
+                    Text(fact)
+                        .font(.custom("SpaceGrotesk-Regular", size: 16))
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.blue.opacity(0.2))
+                        .cornerRadius(10)
+                        .padding()
+                }
+            }
+            .frame(height: 150)
+            .tabViewStyle(PageTabViewStyle())
+        }
+        .background(Color.black.opacity(0.7))
+        .cornerRadius(20)
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(Color.blue.opacity(0.5), lineWidth: 2)
+        )
+    }
+}
+
+struct StarryBackground: View {
+    let starCount = 100
+    
+    var body: some View {
+        GeometryReader { geometry in
+            ForEach(0..<starCount, id: \.self) { _ in
+                Circle()
+                    .fill(Color.white)
+                    .frame(width: CGFloat.random(in: 1...3))
+                    .position(
+                        x: CGFloat.random(in: 0...geometry.size.width),
+                        y: CGFloat.random(in: 0...geometry.size.height)
+                    )
+                    .opacity(Double.random(in: 0.1...1.0))
+                    .animation(
+                        Animation.easeInOut(duration: Double.random(in: 1...3))
+                            .repeatForever(autoreverses: true),
+                        value: UUID()
+                    )
+            }
+        }
+        .background(
+            LinearGradient(gradient: Gradient(colors: [.black, .blue.opacity(0.3)]), startPoint: .top, endPoint: .bottom)
+        )
+    }
+}
+
+// YouTubeView, ARViewContainer1, ARViewRepresentable1, and extensions remain unchanged
 
 struct YouTubeView: UIViewRepresentable {
     var videoID: String

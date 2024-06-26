@@ -286,72 +286,120 @@ struct GalaxyAreaMobile_Previews: PreviewProvider {
 
 import SwiftUI
 import RealityKit
+import ARKit
 
 struct GalaxyAreaMobile: View {
     @State private var isARPresented = false
     @Environment(\.colorScheme) var colorScheme
+    @State private var selectedFact = 0
+    
+    let galaxyFacts = [
+        "The Milky Way is estimated to contain 100-400 billion stars.",
+        "Our galaxy is approximately 100,000 light-years in diameter.",
+        "The Milky Way is moving through space at approximately 600 km/s.",
+        "There may be up to 400 billion planets in our galaxy.",
+        "The center of our galaxy contains a supermassive black hole."
+    ]
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 0) {
-                // Title "Information"
-                Text("THE MILKYWAY GALAXY")
-                    .monospaced()
-                    .font(fontForDevice(sizeForiPhone: 30, sizeForiPad: 50))
-                    .padding(.top, 50)
+            VStack(spacing: 20) {
+                // Title
+                Text("THE MILKY WAY GALAXY")
+                    .font(.custom("SpaceGrotesk-Bold", size: fontSizeForDevice(sizeForiPhone: 30, sizeForiPad: 50)))
                     .foregroundColor(.white)
+                    .padding(.top, 50)
+                    .shadow(color: .blue, radius: 2, x: 0, y: 2)
                 
-                Text("Home to billions of stars and celestial wonders, its spiral arms reveal clusters and cosmic mysteries.  The Milky Way, a vast spiral galaxy, graces our night sky with a river of stars. Our Sun is a mere spark within this cosmic metropolis, inviting us to contemplate the ancient light of distant stars and explore the boundless wonders of our cosmic heritage.")
-                    .padding(.horizontal, 5)
+                // Galaxy SVG
+                GalaxySVG()
+                    .frame(width: 200, height: 200)
+                    .foregroundColor(.white)
+                    .padding()
+                
+                // Introduction
+                Text("Home to billions of stars and celestial wonders, the Milky Way's spiral arms reveal clusters and cosmic mysteries.")
+                    .padding(.horizontal)
+                    .foregroundColor(colorScheme == .dark ? .white : .black)
+                    .font(.custom("SpaceGrotesk-Regular", size: fontSizeForDevice(sizeForiPhone: 16, sizeForiPad: 22)))
+                    .multilineTextAlignment(.center)
+
+                // Main description
+                Text("Beneath the captivating canvas of the Milky Way lies a cosmic spectacle, a swirling sea of stars, planets, and celestial wonders. Our galaxy, a vast spiral of breathtaking beauty, is home to an estimated 100 to 400 billion stars, each with its own unique story. Among these stars, our Sun resides as an unassuming member, accompanied by a retinue of planets, including Earth, our cherished abode.")
                     .padding()
                     .foregroundColor(colorScheme == .dark ? .white : .black)
-                    .font(fontForDevice(sizeForiPhone: 14, sizeForiPad: 20))
+                    .font(.custom("SpaceGrotesk-Regular", size: fontSizeForDevice(sizeForiPhone: 14, sizeForiPad: 20)))
+                    .background(Color.blue.opacity(0.1))
+                    .cornerRadius(10)
 
-                HStack {
-                    // Paragraph with description
-                    Text("Beneath the captivating canvas of the Milky Way lies a cosmic spectacle, a swirling sea of stars, planets, and celestial wonders. Our galaxy, a vast spiral of breathtaking beauty, is home to an estimated 100 to 400 billion stars, each with its own unique story. Among these stars, our Sun resides as an unassuming member, accompanied by a retinue of planets, including Earth, our cherished abode. The Milky Way's spiral arms, adorned with stellar nurseries and cosmic clouds, birth new stars and planetary systems in a perpetual dance of creation.")
-                        .padding(.horizontal, 5)
-                        .padding()
-                        .foregroundColor(colorScheme == .dark ? .white : .black)
-                        .font(fontForDevice(sizeForiPhone: 14, sizeForiPad: 20))
-                }.padding(30)
-
-                // Button to show Earth in AR
+                // AR Button
                 Button(action: {
                     isARPresented.toggle()
                 }) {
-                    Text("Show in AR")
-                        .frame(width: buttonWidthForDevice(), height: buttonHeightForDevice())
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .padding()
+                    HStack {
+                        Image(systemName: "arkit")
+                        Text("Explore in AR")
+                    }
+                    .frame(width: buttonWidthForDevice(), height: buttonHeightForDevice())
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .shadow(color: .blue.opacity(0.5), radius: 5, x: 0, y: 5)
                 }
                 .sheet(isPresented: $isARPresented, content: {
                     ARViewContainer()
                 })
                 
-                Text("Fun fact: It would take us about 100,000 years to traverse the Milky Way from one end to the other at the speed of light! As we peer into this celestial expanse, we witness the grandeur of our galactic neighborhood, a testament to the boundless wonders that unfold in the cosmic tapestry above.")
-                    .padding(.horizontal, 5)
-                    .padding()
-                    .foregroundColor(colorScheme == .dark ? .white : .black)
-                    .font(fontForDevice(sizeForiPhone: 14, sizeForiPad: 20))
+                // Galaxy facts carousel
+                VStack {
+                    Text("Did You Know?")
+                        .font(.custom("SpaceGrotesk-Bold", size: fontSizeForDevice(sizeForiPhone: 18, sizeForiPad: 24)))
+                        .foregroundColor(.white)
+                        .padding(.top)
+                    
+                    TabView(selection: $selectedFact) {
+                        ForEach(0..<galaxyFacts.count, id: \.self) { index in
+                            Text(galaxyFacts[index])
+                                .padding()
+                                .foregroundColor(.white)
+                                .background(Color.blue.opacity(0.2))
+                                .cornerRadius(10)
+                                .tag(index)
+                        }
+                    }
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+                    .frame(height: 150)
+                }
+                .background(Color.black.opacity(0.7))
+                .cornerRadius(15)
+                .padding()
                 
+                // Galaxy image
                 Image("galaxynight")
                     .resizable()
+                    .aspectRatio(contentMode: .fit)
                     .frame(height: imageHeightForDevice())
+                    .cornerRadius(15)
+                    .shadow(color: .blue.opacity(0.5), radius: 10, x: 0, y: 10)
                 
-                Text("Earth and the Moon share a unique cosmic connection, dancing in a gravitational embrace that shapes the very fabric of our existence. Earth, our planetary home, is accompanied by one moon, a celestial partner in the vastness of space. This lunar companion influences our world in profound ways, orchestrating the ebb and flow of tides with its gravitational pull. The Moon's phases, from crescent to full, paint the night sky with a mesmerizing celestial ballet, inspiring poets, scientists, and dreamers throughout history. Beyond its poetic influence, the Moon plays a crucial role in stabilizing Earth's axial tilt, ensuring the consistency of our seasons. As humanity continues to explore space, the Moon remains a stepping stone, a beacon that beckons us to reach for the stars. This dynamic interplay between Earth and its solitary moon unfolds in an ongoing cosmic saga, inviting us to gaze upward and ponder the wonders of our celestial partnership")
-                    .padding(.horizontal, 5)
+                // Additional information
+                Text("Earth and the Moon share a unique cosmic connection, dancing in a gravitational embrace that shapes the very fabric of our existence. This lunar companion influences our world in profound ways, orchestrating the ebb and flow of tides with its gravitational pull.")
                     .padding()
                     .foregroundColor(colorScheme == .dark ? .white : .black)
-                    .font(fontForDevice(sizeForiPhone: 14, sizeForiPad: 20))
+                    .font(.custom("SpaceGrotesk-Regular", size: fontSizeForDevice(sizeForiPhone: 14, sizeForiPad: 20)))
+                    .background(Color.blue.opacity(0.1))
+                    .cornerRadius(10)
             }
+            .padding(.bottom, 50)
         }
+        .background(
+            LinearGradient(gradient: Gradient(colors: [.black, .blue.opacity(0.8), .black.opacity(0.5)]), startPoint: .top, endPoint: .bottom)
+        )
     }
     
-    func fontForDevice(sizeForiPhone: CGFloat, sizeForiPad: CGFloat) -> Font {
-        return UIDevice.current.userInterfaceIdiom == .pad ? .system(size: sizeForiPad) : .system(size: sizeForiPhone)
+    // Helper functions
+    func fontSizeForDevice(sizeForiPhone: CGFloat, sizeForiPad: CGFloat) -> CGFloat {
+        return UIDevice.current.userInterfaceIdiom == .pad ? sizeForiPad : sizeForiPhone
     }
 
     func buttonWidthForDevice() -> CGFloat {
@@ -367,6 +415,16 @@ struct GalaxyAreaMobile: View {
     }
 }
 
+// Galaxy SVG
+struct GalaxySVG: View {
+    var body: some View {
+        Image(systemName: "sparkles")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+    }
+}
+
+// ARViewContainer
 struct ARViewContainer: View {
     @Environment(\.presentationMode) var presentationMode
 
@@ -394,6 +452,7 @@ struct ARViewContainer: View {
     }
 }
 
+// ARViewRepresentable
 struct ARViewRepresentable: UIViewRepresentable {
     func makeUIView(context: Context) -> ARView {
         let arView = ARView(frame: .zero)
