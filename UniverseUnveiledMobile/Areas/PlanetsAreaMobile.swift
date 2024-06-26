@@ -256,7 +256,7 @@ struct PlanetsAreaMobile: View {
                             NavigationLink(destination: {
                                 switch planet {
                                 case .Mercury:
-                                    return AnyView(Mercury())
+                                    return AnyView(Mercurry())
                                 case .Venus:
                                     return AnyView(Venus())
                                 case .Earth:

@@ -9,158 +9,157 @@ struct Mercurry: View {
     var planet: Planets = .Mercury
 
     var body: some View {
-        
-//        ZStack {
-//            LinearGradient(
-//                gradient: Gradient(colors: [Color.black, Color.black]),
-//                startPoint: .top,
-//                endPoint: .bottom
-//            ).background(Color.black.edgesIgnoringSafeArea(.all))
-            
         ZStack {
-            // Your background and other UI elements here
-
-            VStack {
-//                HStack {
-//                    Button {
-//                        presentationMode.wrappedValue.dismiss()
-//                    } label: {
-//                        HStack {
-//                            Image(systemName: "chevron.left")
-//                                .foregroundColor(.white)
-//                                .font(.title)
-//                            if isHovered {
-//                                Text("Back")
-//                                    .foregroundColor(.white)
-//                                    .font(.system(size: 16))
-//                                    .padding(.leading, 5)
-//                            }
-//                        }
-//                        .onHover { hovering in
-//                            withAnimation {
-//                                isHovered = hovering
-//                            }
-//                        }
-//                    }
-//                    .padding(.leading, 20)
-//                    .padding(.top, 20)
-//
-//                    Spacer()
-//                }
-
-                ScrollView {
+            // Use the existing StarryBackground
+            StarryBackground()
+            
+            ScrollView {
+                VStack(spacing: 30) {
                     Text(planet.planetName)
-                        .monospaced()
-                        .font(.system(size: 40, weight: .bold))
-                        .padding(.top, 30)
-                        .foregroundColor(colorScheme == .dark ? .white : .black)
+                        .font(.custom("SpaceGrotesk-Bold", size: 50))
+                        .foregroundColor(.white)
+                        .padding(.top, 50)
+                        .shadow(color: .orange, radius: 2, x: 0, y: 2)
+                    
                     PlanetSceneView(scene: SCNScene(named: "\(planet.rawValue).usdz"))
                         .frame(width: 300, height: 300)
-                        .scaledToFit()
-                        .padding(.bottom, 50)
+                        .background(
+                            Circle()
+                                .fill(RadialGradient(gradient: Gradient(colors: [.orange, .red, .black]), center: .center, startRadius: 5, endRadius: 150))
+                        )
+                        .shadow(color: .orange.opacity(0.5), radius: 20, x: 0, y: 0)
                     
-                    VStack(alignment: .leading) {
-                        HStack {
-                            
-
-                            Text(planet.about)
-                                .multilineTextAlignment(.leading) // Adjust alignment if needed
-                                .foregroundColor(colorScheme == .dark ? .white : .black) // Change color based on color scheme
-                                .frame(maxWidth: .infinity) // Expand to fill the width
-                                .padding() // Add padding for better readability
-                                .lineSpacing(5) // Adjust line spacing if needed
-                                .lineLimit(nil) // Allow unlimited lines
-                                .fixedSize(horizontal: false, vertical: true) // Allow vertical
-                                
-                            
-                        }
-                        Divider()
-
-                        Text("Mercury Facts")
-                            .monospaced()
-                            .font(.system(size: 40, weight: .bold))
-                            .padding(.top, 50)
-                            .foregroundColor(colorScheme == .dark ? .white : .black)
-                            .padding(.bottom, 30)
-                        
-                        
-                        // Additional Information
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Name Meaning")
-                                .bold()
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            Text("for the messenger of the Roman gods")
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                                .padding(.bottom, 20)
-                            //Text("_________________________")
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Diameter")
-                                .bold()
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            Text("3,031 miles (4,878 km)")
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            //Divider()
-                                .padding(.bottom, 20)
-                        }
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Surface Gravity")
-                                .bold()
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            Text("3.7 m/s²")
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                                .padding(.bottom, 20)
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Orbit")
-                                .bold()
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            Text("88 Earth days")
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                                .padding(.bottom, 20)
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Day")
-                                .bold()
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            Text("58.6 Earth days")
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                                .padding(.bottom, 20)
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Number of moons")
-                                .bold()
-                                .foregroundColor(.white)
-                            Text("0")
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                                .padding(.bottom, 20)
-                        }
-                        
-                        Text("Information")
-                            .monospaced()
-                            .font(.system(size: 40, weight: .bold))
-                            .padding(.top, 50)
-                            .foregroundColor(colorScheme == .dark ? .white : .black)
-                            .padding(.bottom, 30)
-                        
-                        Text("Mercury is the closest planet to the sun and the smallest planet in the solar system — it is only a little larger than Earth's moon. Mercury zips around the sun in only 88 days and because it is so close to our star (about two-fifths the distance between Earth and the sun). \n \nMercury experiences dramatic changes in its day and night temperatures. Mercury temperatures can reach a scorching 840 F (450 C) in the day, which is hot enough to melt lead. Meanwhile, on the night side, temperatures drop to minus 290 F (minus 180 C). \n\nMercury's atmosphere is very thin and primarily composed of oxygen, sodium, hydrogen, helium and potassium. Because the atmosphere is so thin it cannot incoming meteors, its surface is therefore pockmarked with craters, just like our moon. \n\nOver its four-year mission, NASA's MESSENGER spacecraft revealed incredible discoveries that challenged astronomers' expectations. Among those findings was the discovery of water ice and frozen organic compounds at Mercury's north pole and that volcanism played a major role in shaping the planet's surface. ").foregroundColor(colorScheme == .dark ? .white : .black)
-                            .padding(.horizontal, 5)
-                        
-
-                    }
-                    .padding()
+                    InfoSection(title: "About Mercury", content: planet.about)
                     
+                    FactsGrid()
+                    
+                    InfoSection(title: "Detailed Information", content: detailedInfo)
+                    
+                    ExplorationSection()
                 }
+                .padding()
             }
         }
-        //.background(Color.black.edgesIgnoringSafeArea(.all))
-        .padding(.leading, 5)
-        .onAppear {
-            // Additional setup if needed when the view appears
+        .background(Color.black.edgesIgnoringSafeArea(.all))
+    }
+    
+    var detailedInfo: String {
+        """
+        Mercury is the closest planet to the sun and the smallest planet in the solar system — it is only a little larger than Earth's moon. Mercury zips around the sun in only 88 days and because it is so close to our star (about two-fifths the distance between Earth and the sun).
+
+        Mercury experiences dramatic changes in its day and night temperatures. Mercury temperatures can reach a scorching 840 F (450 C) in the day, which is hot enough to melt lead. Meanwhile, on the night side, temperatures drop to minus 290 F (minus 180 C).
+
+        Mercury's atmosphere is very thin and primarily composed of oxygen, sodium, hydrogen, helium and potassium. Because the atmosphere is so thin it cannot incoming meteors, its surface is therefore pockmarked with craters, just like our moon.
+
+        Over its four-year mission, NASA's MESSENGER spacecraft revealed incredible discoveries that challenged astronomers' expectations. Among those findings was the discovery of water ice and frozen organic compounds at Mercury's north pole and that volcanism played a major role in shaping the planet's surface.
+
+        Despite its proximity to the Sun, Mercury is not the hottest planet in our solar system – that title belongs to nearby Venus, thanks to its dense atmosphere. Mercury's elliptical orbit takes the small planet as close as 29 million miles (47 million kilometers) and as far as 43 million miles (70 million kilometers) from the Sun. If one could stand on the scorching surface of Mercury when it is at its closest point to the Sun, the Sun would appear more than three times as large as it does when viewed from Earth.
+        """
+    }
+}
+
+struct InfoSection: View {
+    let title: String
+    let content: String
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 15) {
+            Text(title)
+                .font(.custom("SpaceGrotesk-Bold", size: 30))
+                .foregroundColor(.white)
+            
+            Text(content)
+                .font(.custom("SpaceGrotesk-Regular", size: 16))
+                .foregroundColor(.white.opacity(0.8))
+                .lineSpacing(5)
+        }
+        .padding()
+        .background(Color.gray.opacity(0.2))
+        .cornerRadius(15)
+    }
+}
+
+struct FactsGrid: View {
+    let facts: [(String, String)] = [
+        ("Name Meaning", "Messenger of the Roman gods"),
+        ("Diameter", "3,031 miles (4,878 km)"),
+        ("Surface Gravity", "3.7 m/s²"),
+        ("Orbit", "88 Earth days"),
+        ("Day Length", "58.6 Earth days"),
+        ("Moons", "0"),
+        ("Avg. Temperature", "-180°C to 430°C"),
+        ("Atmosphere", "Thin, composed mainly of oxygen, sodium, hydrogen, helium, and potassium")
+    ]
+    
+    let columns = [
+        GridItem(.flexible(), spacing: 20),
+        GridItem(.flexible(), spacing: 20)
+    ]
+    
+    var body: some View {
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 20) {
+                ForEach(facts, id: \.0) { fact in
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(fact.0)
+                            .font(.custom("SpaceGrotesk-Bold", size: 18))
+                            .foregroundColor(.orange)
+                        Text(fact.1)
+                            .font(.custom("SpaceGrotesk-Regular", size: 16))
+                            .foregroundColor(.white)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .frame(minHeight: 100)
+                    .padding()
+                    .background(Color.gray.opacity(0.2))
+                    .cornerRadius(10)
+                }
+            }
+            .padding()
+        }
+    }
+}
+
+struct ExplorationSection: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 15) {
+            Text("Exploration Highlights")
+                .font(.custom("SpaceGrotesk-Bold", size: 30))
+                .foregroundColor(.white)
+            
+            VStack(alignment: .leading, spacing: 10) {
+                ExplorationItem(
+                    title: "Mariner 10 (1974-1975)",
+                    description: "First spacecraft to visit Mercury, mapped about 45% of the surface."
+                )
+                ExplorationItem(
+                    title: "MESSENGER (2011-2015)",
+                    description: "First to orbit Mercury, provided comprehensive maps and data."
+                )
+                ExplorationItem(
+                    title: "BepiColombo (Launched 2018)",
+                    description: "Joint ESA/JAXA mission, will study Mercury's composition, geophysics, atmosphere, and magnetosphere."
+                )
+            }
+        }
+        .padding()
+        .background(Color.gray.opacity(0.2))
+        .cornerRadius(15)
+    }
+}
+
+struct ExplorationItem: View {
+    let title: String
+    let description: String
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text(title)
+                .font(.custom("SpaceGrotesk-Bold", size: 18))
+                .foregroundColor(.orange)
+            Text(description)
+                .font(.custom("SpaceGrotesk-Regular", size: 16))
+                .foregroundColor(.white.opacity(0.8))
         }
     }
 }
