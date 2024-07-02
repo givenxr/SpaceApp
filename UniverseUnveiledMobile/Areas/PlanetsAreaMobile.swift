@@ -282,7 +282,7 @@ struct PlanetsAreaMobile: View {
                     .padding()
                 }
             }
-            .navigationBarTitle("Planets", displayMode: .large)
+            //.navigationBarTitle("Planets", displayMode: .large)
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }

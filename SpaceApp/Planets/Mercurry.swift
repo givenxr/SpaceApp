@@ -88,7 +88,7 @@ struct FactsGrid: View {
         ("Day Length", "58.6 Earth days"),
         ("Moons", "0"),
         ("Avg. Temperature", "-180°C to 430°C"),
-        ("Atmosphere", "Thin, composed mainly of oxygen, sodium, hydrogen, helium, and potassium")
+        ("Atmosphere", "Composed mainly of oxygen, sodium, hydrogen, helium, and potassium")
     ]
     
     let columns = [
@@ -104,12 +104,13 @@ struct FactsGrid: View {
                         Text(fact.0)
                             .font(.custom("SpaceGrotesk-Bold", size: 18))
                             .foregroundColor(.orange)
+                        Spacer()
                         Text(fact.1)
                             .font(.custom("SpaceGrotesk-Regular", size: 16))
                             .foregroundColor(.white)
-                            .fixedSize(horizontal: false, vertical: true)
                     }
-                    .frame(minHeight: 100)
+                    .frame(height: 100)
+                    .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(10)
@@ -119,7 +120,6 @@ struct FactsGrid: View {
         }
     }
 }
-
 struct ExplorationSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {

@@ -10,155 +10,121 @@ import SceneKit
 import RealityKit
 
 struct Neptune: View {
-    @Environment(\.presentationMode) var presentationMode
     @Environment(\.colorScheme) var colorScheme
-    @State private var isHovered = false
     var planet: Planets = .Neptune
 
     var body: some View {
         ZStack {
-            // Your background and other UI elements here
-
-            VStack {
-//                HStack {
-//                    Button {
-//                        presentationMode.wrappedValue.dismiss()
-//                    } label: {
-//                        HStack {
-//                            Image(systemName: "chevron.left")
-//                                .foregroundColor(.white)
-//                                .font(.title)
-//                            if isHovered {
-//                                Text("Back")
-//                                    .foregroundColor(.white)
-//                                    .font(.system(size: 16))
-//                                    .padding(.leading, 5)
-//                            }
-//                        }
-//                        .onHover { hovering in
-//                            withAnimation {
-//                                isHovered = hovering
-//                            }
-//                        }
-//                    }
-//                    .padding(.leading, 20)
-//                    .padding(.top, 20)
-//
-//                    Spacer()
-//                }
-
-                ScrollView {
+            StarryBackground()
+            
+            ScrollView {
+                VStack(spacing: 30) {
                     Text(planet.planetName)
-                        .monospaced()
-                        .font(.system(size: 40, weight: .bold))
-                        .padding(.top, 30)
-                        .foregroundColor(colorScheme == .dark ? .white : .black)
+                        .font(.custom("SpaceGrotesk-Bold", size: 50))
+                        .foregroundColor(.white)
+                        .padding(.top, 50)
+                        .shadow(color: .blue, radius: 2, x: 0, y: 2)
+                    
                     PlanetSceneView(scene: SCNScene(named: "\(planet.rawValue).usdz"))
                         .frame(width: 300, height: 300)
-                        .scaledToFit()
-                        .padding(.bottom, 50)
+                        .background(
+                            Circle()
+                                .fill(RadialGradient(gradient: Gradient(colors: [.blue, .cyan, .black]), center: .center, startRadius: 5, endRadius: 150))
+                        )
+                        .shadow(color: .blue.opacity(0.5), radius: 20, x: 0, y: 0)
                     
-                    VStack(alignment: .leading) {
-                        HStack {
-                           
+                    InfoSection(title: "About Neptune", content: planet.about)
+                    
+                    NeptuneFactsGrid()
+                    
+                    InfoSection(title: "Detailed Information", content: detailedInfo)
+                    
+                    NeptuneExplorationSection()
+                }
+                .padding()
+            }
+        }
+        .background(Color.black.edgesIgnoringSafeArea(.all))
+    }
+    
+    var detailedInfo: String {
+        """
+        Neptune is the eighth planet from the sun and is on average the coldest planet in the solar system. The average temperature of Neptune at the top of the clouds is minus 346 degrees Fahrenheit (minus 210 degrees Celsius).
 
-                            Text(planet.about)
-                                .multilineTextAlignment(.leading) // Adjust alignment if needed
-                                .foregroundColor(colorScheme == .dark ? .white : .black) // Change color based on color scheme
-                                .frame(maxWidth: .infinity) // Expand to fill the width
-                                .padding() // Add padding for better readability
-                                .lineSpacing(5) // Adjust line spacing if needed
-                                .lineLimit(nil) // Allow unlimited lines
-                                .fixedSize(horizontal: false, vertical: true) // Allow vertical
-                                
-                            
-                        }
-                        Divider()
+        Neptune is approximately the same size as Uranus and is known for its supersonic strong winds. The planet is more than 30 times as far from the sun as Earth.
 
-                        Text("Neptune Facts")
-                            .monospaced()
-                            .font(.system(size: 40, weight: .bold))
-                            .padding(.top, 50)
-                            .foregroundColor(colorScheme == .dark ? .white : .black)
-                            .padding(.bottom, 30)
-                        
-                        
-                        // Additional Information
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Name Meaning")
-                                .bold()
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            Text("for the Roman god of water")
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                                .padding(.bottom, 20)
-                            //Text("_________________________")
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Diameter")
-                                .bold()
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            Text("30,775 miles (49,530 km)")
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            //Divider()
-                                .padding(.bottom, 20)
-                        }
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Surface Gravity")
-                                .bold()
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            Text("11.15 m/s²")
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                                .padding(.bottom, 20)
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Orbit")
-                                .bold()
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            Text("165 Earth years")
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                                .padding(.bottom, 20)
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Day")
-                                .bold()
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            Text("19 Earth hours")
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                                .padding(.bottom, 20)
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Number of moons")
-                                .bold()
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            Text("14")
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                                .padding(.bottom, 20)
-                        }
-                        
-                        Text("Information")
-                            .monospaced()
-                            .font(.system(size: 40, weight: .bold))
-                            .padding(.top, 50)
-                            .foregroundColor(colorScheme == .dark ? .white : .black)
-                            .padding(.bottom, 30)
-                        
-                        Text("Neptune is the eighth planet from the sun and is on average the coldest planet in the solar system. The average temperature of Neptune at the top of the clouds is minus 346 degrees Fahrenheit (minus 210 degrees Celsius). \n \n Neptune is approximately the same size as Uranus and is known for its supersonic strong winds. The planet is more than 30 times as far from the sun as Earth. \n\n Neptune was the first planet predicted to exist by using math, rather than being visually detected. Irregularities in the orbit of Uranus led French astronomer Alexis Bouvard to suggest some other planet might be exerting a gravitational tug. German astronomer Johann Galle used calculations to help find Neptune in a telescope. Neptune is about 17 times as massive as Earth and has a rocky core.").foregroundColor(colorScheme == .dark ? .white : .black)
-                        
+        Neptune was the first planet predicted to exist by using math, rather than being visually detected. Irregularities in the orbit of Uranus led French astronomer Alexis Bouvard to suggest some other planet might be exerting a gravitational tug. German astronomer Johann Galle used calculations to help find Neptune in a telescope. Neptune is about 17 times as massive as Earth and has a rocky core.
+        """
+    }
+}
 
+struct NeptuneFactsGrid: View {
+    let facts: [(String, String)] = [
+        ("Name Meaning", "Roman god of water"),
+        ("Diameter", "30,775 miles (49,530 km)"),
+        ("Surface Gravity", "11.15 m/s²"),
+        ("Orbit", "165 Earth years"),
+        ("Day", "19 Earth hours"),
+        ("Moons", "14"),
+        ("Avg. Temperature", "-346°F (-210°C)"),
+        ("Atmosphere", "Hydrogen, helium, methane")
+    ]
+    
+    let columns = [
+        GridItem(.flexible(), spacing: 20),
+        GridItem(.flexible(), spacing: 20)
+    ]
+    
+    var body: some View {
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 20) {
+                ForEach(facts, id: \.0) { fact in
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(fact.0)
+                            .font(.custom("SpaceGrotesk-Bold", size: 18))
+                            .foregroundColor(.blue)
+                        Spacer()
+                        Text(fact.1)
+                            .font(.custom("SpaceGrotesk-Regular", size: 16))
+                            .foregroundColor(.white)
                     }
+                    .frame(height: 100)
+                    .frame(maxWidth: .infinity)
                     .padding()
-                    
+                    .background(Color.blue.opacity(0.2))
+                    .cornerRadius(10)
                 }
             }
-        }.padding(.leading, 5)
-        //.background(Color.black.edgesIgnoringSafeArea(.all))
-        .onAppear {
-            // Additional setup if needed when the view appears
+            .padding()
         }
+    }
+}
+
+struct NeptuneExplorationSection: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 15) {
+            Text("Exploration Highlights")
+                .font(.custom("SpaceGrotesk-Bold", size: 30))
+                .foregroundColor(.white)
+            
+            VStack(alignment: .leading, spacing: 10) {
+                ExplorationItem(
+                    title: "Voyager 2 (1989)",
+                    description: "First and only spacecraft to visit Neptune, providing detailed images and data."
+                )
+                ExplorationItem(
+                    title: "Hubble Space Telescope",
+                    description: "Continues to study Neptune from Earth orbit, observing its dynamic atmosphere and moons."
+                )
+                ExplorationItem(
+                    title: "Future Missions",
+                    description: "Various concepts for Neptune orbiters and atmospheric probes are under consideration by space agencies."
+                )
+            }
+        }
+        .padding()
+        .background(Color.blue.opacity(0.2))
+        .cornerRadius(15)
     }
 }
 

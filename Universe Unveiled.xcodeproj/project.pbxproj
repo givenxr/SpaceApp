@@ -86,6 +86,7 @@
 		DC0815152BD940A50028968B /* Console.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0815142BD940A40028968B /* Console.swift */; };
 		DC0815172BE12A940028968B /* SolarSystem.usdz in Resources */ = {isa = PBXBuildFile; fileRef = DC0815162BE12A930028968B /* SolarSystem.usdz */; };
 		DC08151A2BE4321B0028968B /* Capsule.usdz in Resources */ = {isa = PBXBuildFile; fileRef = DC0815182BE432170028968B /* Capsule.usdz */; };
+		DC31F3542C2D6E440019FE99 /* PlanetFacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31F3532C2D6E3D0019FE99 /* PlanetFacts.swift */; };
 		DCB201F82BEE33C6005E42D0 /* Rocket.usdz in Resources */ = {isa = PBXBuildFile; fileRef = DCB201F72BEE33C6005E42D0 /* Rocket.usdz */; };
 		DCB202392C17A186005E42D0 /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = DCB202382C17A186005E42D0 /* FocusEntity */; };
 		DCB2023C2C242F77005E42D0 /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = DCB2023B2C242F77005E42D0 /* FocusEntity */; };
@@ -201,6 +202,8 @@
 		DC0815142BD940A40028968B /* Console.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Console.swift; sourceTree = "<group>"; };
 		DC0815162BE12A930028968B /* SolarSystem.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = SolarSystem.usdz; path = ../../../SolarSystem.usdz; sourceTree = "<group>"; };
 		DC0815182BE432170028968B /* Capsule.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Capsule.usdz; sourceTree = "<group>"; };
+		DC31F3532C2D6E3D0019FE99 /* PlanetFacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetFacts.swift; sourceTree = "<group>"; };
+		DC31F3552C2D90DF0019FE99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		DCB201F72BEE33C6005E42D0 /* Rocket.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Rocket.usdz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -261,6 +264,7 @@
 		814748AF2B9B357F003C306E /* Planets */ = {
 			isa = PBXGroup;
 			children = (
+				DC31F3532C2D6E3D0019FE99 /* PlanetFacts.swift */,
 				814748FA2BA09841003C306E /* Mercury.swift */,
 				814748F72BA09841003C306E /* Jupiter.swift */,
 				814748F32BA09841003C306E /* Mercurry.swift */,
@@ -343,6 +347,7 @@
 		8193B5A92B8DF5B7009823BF /* UniverseUnveiledMobile */ = {
 			isa = PBXGroup;
 			children = (
+				DC31F3552C2D90DF0019FE99 /* Info.plist */,
 				8174FEBC2BA327F5005E80AB /* ARView */,
 				814748BE2B9B3BA6003C306E /* 3D Objects */,
 				814748B32B9B35B8003C306E /* Areas */,
@@ -739,6 +744,7 @@
 				814749052BA1E1AD003C306E /* ARTest.swift in Sources */,
 				814748FB2BA09841003C306E /* Neptune.swift in Sources */,
 				814748FF2BA09841003C306E /* Venus.swift in Sources */,
+				DC31F3542C2D6E440019FE99 /* PlanetFacts.swift in Sources */,
 				814748CE2B9B460D003C306E /* AreaMobile.swift in Sources */,
 				814748BD2B9B3B73003C306E /* EquipmentAreaMobile.swift in Sources */,
 				814748F12BA09818003C306E /* Mars.swift in Sources */,
@@ -849,11 +855,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.2;
+				CURRENT_PROJECT_VERSION = 1.3;
 				DEVELOPMENT_ASSET_PATHS = "\"UniverseUnveiledMobile/Preview Content\"";
 				DEVELOPMENT_TEAM = 5CND4GK432;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = UniverseUnveiledMobile/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Universe Unveiled";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Needed to show AR View";
@@ -887,11 +894,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.2;
+				CURRENT_PROJECT_VERSION = 1.3;
 				DEVELOPMENT_ASSET_PATHS = "\"UniverseUnveiledMobile/Preview Content\"";
 				DEVELOPMENT_TEAM = 5CND4GK432;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = UniverseUnveiledMobile/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Universe Unveiled";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Needed to show AR View";

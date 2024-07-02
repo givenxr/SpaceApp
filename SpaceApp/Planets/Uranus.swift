@@ -5,161 +5,127 @@
 //  Created by Given Mahlangu on 2024/01/11.
 //
 
+
 import SwiftUI
 import SceneKit
 import RealityKit
 
 struct Uranus: View {
-    @Environment(\.presentationMode) var presentationMode
     @Environment(\.colorScheme) var colorScheme
-    @State private var isHovered = false
     var planet: Planets = .Uranus
 
     var body: some View {
         ZStack {
-            // Your background and other UI elements here
-
-            VStack {
-//                HStack {
-//                    Button {
-//                        presentationMode.wrappedValue.dismiss()
-//                    } label: {
-//                        HStack {
-//                            Image(systemName: "chevron.left")
-//                                .foregroundColor(.white)
-//                                .font(.title)
-//                            if isHovered {
-//                                Text("Back")
-//                                    .foregroundColor(.white)
-//                                    .font(.system(size: 16))
-//                                    .padding(.leading, 5)
-//                            }
-//                        }
-//                        .onHover { hovering in
-//                            withAnimation {
-//                                isHovered = hovering
-//                            }
-//                        }
-//                    }
-//                    .padding(.leading, 20)
-//                    .padding(.top, 20)
-//
-//                    Spacer()
-//                }
-
-                ScrollView {
+            StarryBackground()
+            
+            ScrollView {
+                VStack(spacing: 30) {
                     Text(planet.planetName)
-                        .monospaced()
-                        .font(.system(size: 40, weight: .bold))
-                        .padding(.top, 30)
+                        .font(.custom("SpaceGrotesk-Bold", size: 50))
                         .foregroundColor(.white)
+                        .padding(.top, 50)
+                        .shadow(color: .cyan, radius: 2, x: 0, y: 2)
+                    
                     PlanetSceneView(scene: SCNScene(named: "\(planet.rawValue).usdz"))
                         .frame(width: 300, height: 300)
-                        .scaledToFit()
-                        .padding(.bottom, 50)
+                        .background(
+                            Circle()
+                                .fill(RadialGradient(gradient: Gradient(colors: [.cyan, .blue, .black]), center: .center, startRadius: 5, endRadius: 150))
+                        )
+                        .shadow(color: .cyan.opacity(0.5), radius: 20, x: 0, y: 0)
                     
-                    VStack(alignment: .leading) {
-                        HStack {
-                            
-
-                            Text(planet.about)
-                                .multilineTextAlignment(.leading) // Adjust alignment if needed
-                                .foregroundColor(colorScheme == .dark ? .white : .black) // Change color based on color scheme
-                                .frame(maxWidth: .infinity) // Expand to fill the width
-                                .padding() // Add padding for better readability
-                                .lineSpacing(5) // Adjust line spacing if needed
-                                .lineLimit(nil) // Allow unlimited lines
-                                .fixedSize(horizontal: false, vertical: true) // Allow vertical
-                                
-                            
-                        }
-                        Divider()
-
-                        Text("Uranus Facts")
-                            .monospaced()
-                            .font(.system(size: 40, weight: .bold))
-                            .padding(.top, 50)
-                            .foregroundColor(.white)
-                            .padding(.bottom, 30)
-                        
-                        
-                        // Additional Information
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Name Meaning")
-                                .bold()
-                                .foregroundColor(.white)
-                            Text("for the personification of heaven in ancient myth")
-                                .foregroundColor(.white)
-                                .padding(.bottom, 20)
-                            //Text("_________________________")
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Diameter")
-                                .bold()
-                                .foregroundColor(.white)
-                            Text("31,763 miles (51,120 km)")
-                                .foregroundColor(.white)
-                            //Divider()
-                                .padding(.bottom, 20)
-                        }
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Surface Gravity")
-                                .bold()
-                                .foregroundColor(.white)
-                            Text("8.87 m/s²")
-                                .foregroundColor(.white)
-                                .padding(.bottom, 20)
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Orbit")
-                                .bold()
-                                .foregroundColor(.white)
-                            Text("84 Earth years")
-                                .foregroundColor(.white)
-                                .padding(.bottom, 20)
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Day")
-                                .bold()
-                                .foregroundColor(.white)
-                            Text("18 Earth hours")
-                                .foregroundColor(.white)
-                                .padding(.bottom, 20)
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Number of moons")
-                                .bold()
-                                .foregroundColor(.white)
-                            Text("27")
-                                .foregroundColor(.white)
-                                .padding(.bottom, 20)
-                        }
-                        
-                        Text("Information")
-                            .monospaced()
-                            .font(.system(size: 40, weight: .bold))
-                            .padding(.top, 50)
-                            .foregroundColor(.white)
-                            .padding(.bottom, 30)
-                        
-                        Text("Uranus is the seventh planet from the sun and is a bit of an oddball. \n\n It has clouds made of hydrogen sulfide, the same chemical that makes rotten eggs smell so foul. It rotates from east to west like Venus. But unlike Venus or any other planet, its equator is nearly at right angles to its orbit — it basically orbits on its side.  \n \n Astronomers believe an object twice the size of Earth collided with Uranus roughly 4 billion years ago, causing Uranus to tilt. That tilt causes extreme seasons that last 20-plus years, and the sun beats down on one pole or the other for 84 Earth-years at a time.  \n\n The collision is also thought to have knocked rock and ice into Uranus' orbit. These later became some of the planet's 27 moons. Methane in Uranus' atmosphere gives the planet its blue-green tint. It also has 13 sets of faint rings. \n\n Uranus holds the record for the coldest temperature ever measured in the solar system — minus 371.56 degrees F (minus 224.2 degrees C). The average temperature of Uranus is minus 320 degrees Fahrenheit (-195 degrees Celsius).").foregroundColor(.white)
-                        
-
-                    }
-                    .padding()
+                    InfoSection(title: "About Uranus", content: planet.about)
                     
+                    UranusFactsGrid()
+                    
+                    InfoSection(title: "Detailed Information", content: detailedInfo)
+                    
+                    UranusExplorationSection()
                 }
+                .padding()
             }
         }
-        .padding(.leading, 5)
-        //.background(Color.black.edgesIgnoringSafeArea(.all))
-        .onAppear {
-            // Additional setup if needed when the view appears
+        .background(Color.black.edgesIgnoringSafeArea(.all))
+    }
+    
+    var detailedInfo: String {
+        """
+        Uranus is the seventh planet from the Sun and the third-largest in the Solar System. It is an ice giant, composed primarily of ices such as water, ammonia, and methane, along with a rocky core. Uranus has the coldest planetary atmosphere in the Solar System, with a minimum temperature of -224°C (-371°F).
+
+        One of Uranus's unique features is its axial tilt of 97.77 degrees, which causes extreme seasons lasting for about 20 years. This means that for nearly a quarter of each Uranian year, the Sun shines directly over each pole, plunging the other half of the planet into a long, dark winter.
+
+        Uranus has a faint planetary ring system and 27 known moons. The planet's blue-green color is the result of methane in its atmosphere, which absorbs red light and reflects blue-green light back into space.
+        """
+    }
+}
+
+struct UranusFactsGrid: View {
+    let facts: [(String, String)] = [
+        ("Name Meaning", "Greek god of the sky"),
+        ("Diameter", "31,518 miles (50,724 km)"),
+        ("Surface Gravity", "8.87 m/s²"),
+        ("Orbit", "84 Earth years"),
+        ("Day", "17 Earth hours"),
+        ("Moons", "27"),
+        ("Avg. Temperature", "-353°F (-214°C)"),
+        ("Atmosphere", "Hydrogen, helium, methane")
+    ]
+    
+    let columns = [
+        GridItem(.flexible(), spacing: 20),
+        GridItem(.flexible(), spacing: 20)
+    ]
+    
+    var body: some View {
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 20) {
+                ForEach(facts, id: \.0) { fact in
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(fact.0)
+                            .font(.custom("SpaceGrotesk-Bold", size: 18))
+                            .foregroundColor(.cyan)
+                        Spacer()
+                        Text(fact.1)
+                            .font(.custom("SpaceGrotesk-Regular", size: 16))
+                            .foregroundColor(.white)
+                    }
+                    .frame(height: 100)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.cyan.opacity(0.2))
+                    .cornerRadius(10)
+                }
+            }
+            .padding()
         }
+    }
+}
+
+struct UranusExplorationSection: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 15) {
+            Text("Exploration Highlights")
+                .font(.custom("SpaceGrotesk-Bold", size: 30))
+                .foregroundColor(.white)
+            
+            VStack(alignment: .leading, spacing: 10) {
+                ExplorationItem(
+                    title: "Voyager 2 (1986)",
+                    description: "Only spacecraft to visit Uranus, providing close-up images and data during its flyby."
+                )
+                ExplorationItem(
+                    title: "Hubble Space Telescope",
+                    description: "Continues to study Uranus from Earth orbit, observing seasonal changes and auroras."
+                )
+                ExplorationItem(
+                    title: "Future Missions",
+                    description: "Various concepts for Uranus orbiters and atmospheric probes are under consideration by space agencies."
+                )
+            }
+        }
+        .padding()
+        .background(Color.cyan.opacity(0.2))
+        .cornerRadius(15)
     }
 }
 

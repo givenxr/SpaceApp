@@ -4,165 +4,137 @@
 //
 //  Created by Given Mahlangu on 2024/01/11.
 //
+//
+//  Venus.swift
+//  SpaceApp
+//
+//  Created by [Your Name] on [Current Date]
+//
+
 import SwiftUI
 import SceneKit
 import RealityKit
 
 struct Venus: View {
-    @Environment(\.presentationMode) var presentationMode
     @Environment(\.colorScheme) var colorScheme
-    @State private var isHovered = false
     var planet: Planets = .Venus
-    
+
     var body: some View {
         ZStack {
-            // Your background and other UI elements here
-
-            VStack {
-                    
-//                    HStack {
-//                        Button {
-//                            presentationMode.wrappedValue.dismiss()
-//                        } label: {
-//                            HStack {
-//                                Image(systemName: "chevron.left")
-//                                    .foregroundColor(.white)
-//                                    .font(.title)
-//                                if isHovered {
-//                                    Text("Back")
-//                                        .foregroundColor(.white)
-//                                        .font(.system(size: 16))
-//                                        .padding(.leading, 5)
-//                                }
-//                            }
-//                            .onHover { hovering in
-//                                withAnimation {
-//                                    isHovered = hovering
-//                                }
-//                            }
-//                        }
-//                        .padding(.leading, 20)
-//                        .padding(.top, 20)
-//                        
-//                        Spacer()
-//                    }
-                
-
-                ScrollView {
+            StarryBackground()
+            
+            ScrollView {
+                VStack(spacing: 30) {
                     Text(planet.planetName)
-                        .monospaced()
-                        .font(.system(size: 40, weight: .bold))
-                        .padding(.top, 30)
+                        .font(.custom("SpaceGrotesk-Bold", size: 50))
                         .foregroundColor(.white)
+                        .padding(.top, 50)
+                        .shadow(color: .orange, radius: 2, x: 0, y: 2)
+                    
                     PlanetSceneView(scene: SCNScene(named: "\(planet.rawValue).usdz"))
                         .frame(width: 300, height: 300)
-                        .scaledToFit()
-                        .padding(.bottom, 50)
+                        .background(
+                            Circle()
+                                .fill(RadialGradient(gradient: Gradient(colors: [.orange, .yellow, .black]), center: .center, startRadius: 5, endRadius: 150))
+                        )
+                        .shadow(color: .orange.opacity(0.5), radius: 20, x: 0, y: 0)
                     
-                    VStack(alignment: .leading) {
-                        HStack {
-                            
-
-                            Text(planet.about)
-                                .multilineTextAlignment(.leading) // Adjust alignment if needed
-                                .foregroundColor(colorScheme == .dark ? .white : .black) // Change color based on color scheme
-                                .frame(maxWidth: .infinity) // Expand to fill the width
-                                .padding() // Add padding for better readability
-                                .lineSpacing(5) // Adjust line spacing if needed
-                                .lineLimit(nil) // Allow unlimited lines
-                                .fixedSize(horizontal: false, vertical: true) // Allow vertical
-                                
-                            
-                        }
-                        Divider()
-
-                        Text("Venus Facts")
-                            .monospaced()
-                            .font(.system(size: 40, weight: .bold))
-                            .padding(.top, 50)
-                            .foregroundColor(.white)
-                            .padding(.bottom, 30)
-                        
-                        
-                        // Additional Information
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Name Meaning")
-                                .bold()
-                                .foregroundColor(.white)
-                            Text("for the Roman goddess of love and beauty")
-                                .foregroundColor(.white)
-                                .padding(.bottom, 20)
-                            //Text("_________________________")
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Diameter")
-                                .bold()
-                                .foregroundColor(.white)
-                            Text("7,521 miles (12,104 km)")
-                                .foregroundColor(.white)
-                            //Divider()
-                                .padding(.bottom, 20)
-                        }
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Surface Gravity")
-                                .bold()
-                                .foregroundColor(.white)
-                            Text("8.87 m/s²")
-                                .foregroundColor(.white)
-                                .padding(.bottom, 20)
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Orbit")
-                                .bold()
-                                .foregroundColor(.white)
-                            Text("225 Earth days")
-                                .foregroundColor(.white)
-                                .padding(.bottom, 20)
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Day")
-                                .bold()
-                                .foregroundColor(.white)
-                            Text("241 Earth days")
-                                .foregroundColor(.white)
-                                .padding(.bottom, 20)
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Number of moons")
-                                .bold()
-                                .foregroundColor(.white)
-                            Text("0")
-                                .foregroundColor(.white)
-                                .padding(.bottom, 20)
-                        }
-                        
-                        Text("Information")
-                            .monospaced()
-                            .font(.system(size: 40, weight: .bold))
-                            .padding(.top, 50)
-                            .foregroundColor(.white)
-                            .padding(.bottom, 30)
-                        
-                        Text("Venus is the second planet from the sun and is the hottest planet in the solar system. Its thick atmosphere is extremely toxic and composed of sulfuric acid clouds, the planet is an extreme example of the greenhouse effect.  \n \nThe average temperature on Venus' surface is 900 F (465 C). At 92 bar, the pressure at the surface would crush and kill you. And oddly, Venus spins slowly from east to west, the opposite direction of most of the other planets. \n\n Venus is sometimes referred to as Earth's twin as they are similar in size and radar images beneath its atmosphere reveal numerous mountains and volcanoes. But beyond that, the planets could not be more different.  \n\n The Greeks believed Venus was two different objects — one in the morning sky and another in the evening. Because it is often brighter than any other object in the sky, Venus has generated many UFO reports.  ").foregroundColor(.white)
-                        
-
-                    }
-                    .padding()
+                    InfoSection(title: "About Venus", content: planet.about)
                     
+                    VenusFactsGrid()
+                    
+                    InfoSection(title: "Detailed Information", content: detailedInfo)
+                    
+                    VenusExplorationSection()
                 }
+                .padding()
             }
         }
-        .padding(.leading, 5)
-        //.navigationBarBackButtonHidden(true)
-        
-        //.background(Color.black.edgesIgnoringSafeArea(.all))
-        .onAppear {
-            // Additional setup if needed when the view appears
+        .background(Color.black.edgesIgnoringSafeArea(.all))
+    }
+    
+    var detailedInfo: String {
+        """
+        Venus is often called Earth's twin because of their similar size, mass, proximity to the Sun and bulk composition. However, it is radically different from Earth in many respects.
+
+        It has the densest atmosphere of the four terrestrial planets, consisting of more than 96% carbon dioxide. The atmospheric pressure at the planet's surface is about 92 times the sea level pressure of Earth, or roughly the pressure at 900 m (3,000 ft) underwater on Earth. Venus is by far the hottest planet in the Solar System, with a mean surface temperature of 462°C (864°F), even though Mercury is closer to the Sun.
+
+        Venus is shrouded by an opaque layer of highly reflective clouds of sulfuric acid, preventing its surface from being seen from space in visible light. It may have had water oceans in the past, but these would have vaporized as the temperature rose due to a runaway greenhouse effect.
+        """
+    }
+}
+
+struct VenusFactsGrid: View {
+    let facts: [(String, String)] = [
+        ("Name Meaning", "Roman goddess of love"),
+        ("Diameter", "7,521 miles (12,104 km)"),
+        ("Surface Gravity", "8.87 m/s²"),
+        ("Orbit", "225 Earth days"),
+        ("Day", "243 Earth days"),
+        ("Moons", "0"),
+        ("Avg. Temperature", "864°F (462°C)"),
+        ("Atmosphere", "Carbon dioxide, nitrogen")
+    ]
+    
+    let columns = [
+        GridItem(.flexible(), spacing: 20),
+        GridItem(.flexible(), spacing: 20)
+    ]
+    
+    var body: some View {
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 20) {
+                ForEach(facts, id: \.0) { fact in
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(fact.0)
+                            .font(.custom("SpaceGrotesk-Bold", size: 18))
+                            .foregroundColor(.orange)
+                        Spacer()
+                        Text(fact.1)
+                            .font(.custom("SpaceGrotesk-Regular", size: 16))
+                            .foregroundColor(.white)
+                    }
+                    .frame(height: 100)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.orange.opacity(0.2))
+                    .cornerRadius(10)
+                }
+            }
+            .padding()
         }
+    }
+}
+
+struct VenusExplorationSection: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 15) {
+            Text("Exploration Highlights")
+                .font(.custom("SpaceGrotesk-Bold", size: 30))
+                .foregroundColor(.white)
+            
+            VStack(alignment: .leading, spacing: 10) {
+                ExplorationItem(
+                    title: "Venera Program (1961-1984)",
+                    description: "Soviet missions that included the first spacecraft to land on Venus and transmit surface images."
+                )
+                ExplorationItem(
+                    title: "Magellan (1989-1994)",
+                    description: "NASA orbiter that mapped 98% of Venus's surface using radar."
+                )
+                ExplorationItem(
+                    title: "Venus Express (2005-2014)",
+                    description: "ESA orbiter that studied Venus's atmosphere and surface."
+                )
+                ExplorationItem(
+                    title: "Future Missions",
+                    description: "Several missions are planned, including NASA's VERITAS and DAVINCI+ to study Venus's geology and atmosphere."
+                )
+            }
+        }
+        .padding()
+        .background(Color.orange.opacity(0.2))
+        .cornerRadius(15)
     }
 }
 

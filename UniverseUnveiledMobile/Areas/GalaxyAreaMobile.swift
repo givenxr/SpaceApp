@@ -298,7 +298,9 @@ struct GalaxyAreaMobile: View {
         "Our galaxy is approximately 100,000 light-years in diameter.",
         "The Milky Way is moving through space at approximately 600 km/s.",
         "There may be up to 400 billion planets in our galaxy.",
-        "The center of our galaxy contains a supermassive black hole."
+        "The center of our galaxy contains a supermassive black hole named Sagittarius A*.",
+        "The Milky Way is part of the Local Group, a collection of about 54 galaxies.",
+        "Our galaxy completes one rotation every 225-250 million years."
     ]
 
     var body: some View {
@@ -311,21 +313,25 @@ struct GalaxyAreaMobile: View {
                     .padding(.top, 50)
                     .shadow(color: .blue, radius: 2, x: 0, y: 2)
                 
-                // Galaxy SVG
-                GalaxySVG()
+                // Galaxy Image Placeholder
+                Image(systemName: "sparkles")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
                     .frame(width: 200, height: 200)
                     .foregroundColor(.white)
                     .padding()
+                    .background(Color.blue.opacity(0.1))
+                    .cornerRadius(15)
                 
                 // Introduction
-                Text("Home to billions of stars and celestial wonders, the Milky Way's spiral arms reveal clusters and cosmic mysteries.")
+                Text("Our cosmic home, a vast spiral of stars, gas, and dust, spinning through the universe.")
                     .padding(.horizontal)
                     .foregroundColor(colorScheme == .dark ? .white : .black)
                     .font(.custom("SpaceGrotesk-Regular", size: fontSizeForDevice(sizeForiPhone: 16, sizeForiPad: 22)))
                     .multilineTextAlignment(.center)
 
                 // Main description
-                Text("Beneath the captivating canvas of the Milky Way lies a cosmic spectacle, a swirling sea of stars, planets, and celestial wonders. Our galaxy, a vast spiral of breathtaking beauty, is home to an estimated 100 to 400 billion stars, each with its own unique story. Among these stars, our Sun resides as an unassuming member, accompanied by a retinue of planets, including Earth, our cherished abode.")
+                Text("The Milky Way is a barred spiral galaxy, one of billions in the observable universe. Its name comes from its appearance as a milky band of light in the night sky, formed from stars that cannot be individually distinguished by the naked eye. Our galaxy consists of a thick disk of stars orbiting a central bulge, all surrounded by a vast halo of dark matter.")
                     .padding()
                     .foregroundColor(colorScheme == .dark ? .white : .black)
                     .font(.custom("SpaceGrotesk-Regular", size: fontSizeForDevice(sizeForiPhone: 14, sizeForiPad: 20)))
@@ -338,7 +344,7 @@ struct GalaxyAreaMobile: View {
                 }) {
                     HStack {
                         Image(systemName: "arkit")
-                        Text("Explore in AR")
+                        Text("Explore Galaxy in AR")
                     }
                     .frame(width: buttonWidthForDevice(), height: buttonHeightForDevice())
                     .background(Color.blue)
@@ -352,7 +358,7 @@ struct GalaxyAreaMobile: View {
                 
                 // Galaxy facts carousel
                 VStack {
-                    Text("Did You Know?")
+                    Text("Galactic Facts")
                         .font(.custom("SpaceGrotesk-Bold", size: fontSizeForDevice(sizeForiPhone: 18, sizeForiPad: 24)))
                         .foregroundColor(.white)
                         .padding(.top)
@@ -374,16 +380,37 @@ struct GalaxyAreaMobile: View {
                 .cornerRadius(15)
                 .padding()
                 
-                // Galaxy image
-                Image("galaxynight")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
+                // Galactic Structure Section
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Galactic Structure")
+                        .font(.custom("SpaceGrotesk-Bold", size: fontSizeForDevice(sizeForiPhone: 18, sizeForiPad: 24)))
+                        .foregroundColor(.white)
+                    
+                    Text("• Spiral Arms: The Milky Way has several major spiral arms, including the Orion Arm where our Solar System is located.")
+                    Text("• Galactic Bulge: A dense concentration of stars at the galaxy's center.")
+                    Text("• Galactic Halo: A spherical region surrounding the galactic disk, containing globular clusters and dark matter.")
+                    Text("• Supermassive Black Hole: At the very center, Sagittarius A* with a mass of about 4 million suns.")
+                }
+                .padding()
+                .foregroundColor(colorScheme == .dark ? .white : .black)
+                .font(.custom("SpaceGrotesk-Regular", size: fontSizeForDevice(sizeForiPhone: 14, sizeForiPad: 20)))
+                .background(Color.blue.opacity(0.1))
+                .cornerRadius(10)
+                
+                // Milky Way Visualization Placeholder
+                Rectangle()
+                    .fill(Color.blue.opacity(0.2))
                     .frame(height: imageHeightForDevice())
+                    .overlay(
+                        Text("Milky Way Visualization")
+                            .foregroundColor(.white)
+                            .font(.custom("SpaceGrotesk-Bold", size: 20))
+                    )
                     .cornerRadius(15)
-                    .shadow(color: .blue.opacity(0.5), radius: 10, x: 0, y: 10)
+                    .padding()
                 
                 // Additional information
-                Text("Earth and the Moon share a unique cosmic connection, dancing in a gravitational embrace that shapes the very fabric of our existence. This lunar companion influences our world in profound ways, orchestrating the ebb and flow of tides with its gravitational pull.")
+                Text("Our Solar System is located about 27,000 light-years from the Galactic Center, on the inner edge of the Orion Arm. We complete one orbit around the galactic center every 225-250 million years, a period known as a Galactic Year.")
                     .padding()
                     .foregroundColor(colorScheme == .dark ? .white : .black)
                     .font(.custom("SpaceGrotesk-Regular", size: fontSizeForDevice(sizeForiPhone: 14, sizeForiPad: 20)))

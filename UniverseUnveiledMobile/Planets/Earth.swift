@@ -5,175 +5,140 @@
 //  Created by Given Mahlangu on 2024/01/11.
 //
 
+//
+//  Earth.swift
+//  SpaceApp
+//
+//  Created by [Your Name] on [Current Date]
+//
+
 import SwiftUI
-//import RealityKitContent
-import RealityKit
 import SceneKit
+import RealityKit
 
 struct Earth: View {
-    @Environment(\.presentationMode) var presentationMode
-    @State private var isHovered = false
-    var planet: Planets = .Earth
     @Environment(\.colorScheme) var colorScheme
+    var planet: Planets = .Earth
 
     var body: some View {
-        
         ZStack {
-            // Your background and other UI elements here
-
-            VStack {
-//                HStack {
-//                    Button {
-//                        presentationMode.wrappedValue.dismiss()
-//                    } label: {
-//                        HStack {
-//                            Image(systemName: "chevron.left")
-//                                .foregroundColor(.white)
-//                                .font(.title)
-//                            if isHovered {
-//                                Text("Back")
-//                                    .foregroundColor(.white)
-//                                    .font(.system(size: 16))
-//                                    .padding(.leading, 5)
-//                            }
-//                        }
-//                        .onHover { hovering in
-//                            withAnimation {
-//                                isHovered = hovering
-//                            }
-//                        }
-//                    }
-//                    .padding(.leading, 20)
-//                    .padding(.top, 20)
-//
-//                    Spacer()
-//                }
-
-                ScrollView {
+            StarryBackground()
+            
+            ScrollView {
+                VStack(spacing: 30) {
                     Text(planet.planetName)
-                        .monospaced()
-                        .font(.system(size: 40, weight: .bold))
-                        .padding(.top, 30)
-                        .foregroundColor(colorScheme == .dark ? .white : .black)
+                        .font(.custom("SpaceGrotesk-Bold", size: 50))
+                        .foregroundColor(.white)
+                        .padding(.top, 50)
+                        .shadow(color: .blue, radius: 2, x: 0, y: 2)
                     
                     PlanetSceneView(scene: SCNScene(named: "\(planet.rawValue).usdz"))
                         .frame(width: 300, height: 300)
-                        .scaledToFit()
-                        .padding(.bottom, 50)
+                        .background(
+                            Circle()
+                                .fill(RadialGradient(gradient: Gradient(colors: [.blue, .green, .black]), center: .center, startRadius: 5, endRadius: 150))
+                        )
+                        .shadow(color: .blue.opacity(0.5), radius: 20, x: 0, y: 0)
                     
-                    VStack(alignment: .leading) {
-                        HStack {
-                            
+                    InfoSection(title: "About Earth", content: planet.about)
+                    
+                    EarthFactsGrid()
+                    
+                    InfoSection(title: "Detailed Information", content: detailedInfo)
+                    
+                    EarthExplorationSection()
+                }
+                .padding()
+            }
+        }
+        .background(Color.black.edgesIgnoringSafeArea(.all))
+    }
+    
+    var detailedInfo: String {
+        """
+        Earth is the third planet from the Sun and the only astronomical object known to harbor life. About 29.2% of Earth's surface is land consisting of continents and islands. The remaining 70.8% is covered with water, mostly by oceans, seas, gulfs, and other salt-water bodies, but also by lakes, rivers, and other fresh water, which together constitute the hydrosphere.
 
-                            Text(planet.about)
-                                .multilineTextAlignment(.leading) // Adjust alignment if needed
-                                .foregroundColor(colorScheme == .dark ? .white : .black) // Change color based on color scheme
-                                .frame(maxWidth: .infinity) // Expand to fill the width
-                                .padding() // Add padding for better readability
-                                .lineSpacing(5) // Adjust line spacing if needed
-                                .lineLimit(nil) // Allow unlimited lines
-                                .fixedSize(horizontal: false, vertical: true) // Allow vertical
-                                
-                                //.padding(.leading, 40)
-                            
-                        }
-                        Divider()
+        Earth's atmosphere consists mostly of nitrogen and oxygen. Much of Earth's surface is covered by water, and much of Earth's polar regions are covered by ice. The planet's outer layer is divided into several rigid tectonic plates that migrate across the surface over many millions of years.
 
-                        Text("Earth Facts")
-                            .monospaced()
-                            .font(.system(size: 40, weight: .bold))
-                            .padding(.top, 50)
-                            .foregroundColor(colorScheme == .dark ? .white : .black)
-                            .padding(.bottom, 30)
-                        
-                        
-                        // Additional Information
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Name Meaning")
-                                .bold()
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            Text("Originates from 'Die Erde' the German word for 'the ground'")
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                                .padding(.bottom, 20)
-                            //Text("_________________________")
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Diameter")
-                                .bold()
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            Text("7,926 miles (12,760 km)")
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            //Divider()
-                                .padding(.bottom, 20)
-                        }
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Surface Gravity")
-                                .bold()
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            Text("9.807 m/s²")
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                                .padding(.bottom, 20)
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Orbit")
-                                .bold()
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            Text("365.24 days")
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                                .padding(.bottom, 20)
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Day")
-                                .bold()
-                                .foregroundColor(.black)
-                            Text("23 hours, 56 minutes")
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                                .padding(.bottom, 20)
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Number of moons")
-                                .bold()
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            Text("1")
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                                .padding(.bottom, 20)
-                        }
-                        
-                        Text("Information")
-                            .monospaced()
-                            .font(.system(size: 40, weight: .bold))
-                            .padding(.top, 50)
-                            .foregroundColor(colorScheme == .dark ? .white : .black)
-                            .padding(.bottom, 30)
-                        
-                        Text("Earth, our home planet, is the third planet from the sun. It is a water world with two-thirds of the planet covered by water. Earth's atmosphere is rich in nitrogen and oxygen and it is the only world known to harbor life. \n \n Earth rotates on its axis at 1,532 feet per second (467 meters per second) — slightly more than 1,000 mph (1,600 kph) — at the equator. The planet zips around the sun at more than 18 miles per second (29 km per second).")
-                            .multilineTextAlignment(.leading) // Adjust alignment if needed
-                            .foregroundColor(colorScheme == .dark ? .white : .black) // Change color based on color scheme
-                            .frame(maxWidth: .infinity) // Expand to fill the width
-                            .padding() // Add padding for better readability
-                            .lineSpacing(5) // Adjust line spacing if needed
-                            .lineLimit(nil) // Allow unlimited lines
-                            .fixedSize(horizontal: false, vertical: true) // Allow vertical expansion
+        Earth's interior remains active with a solid iron inner core, a liquid outer core that generates Earth's magnetic field, and a convecting mantle that drives plate tectonics. Earth has one natural satellite, the Moon, which orbits Earth at an average distance of 384,400 km (238,900 mi).
+        """
+    }
+}
 
+struct EarthFactsGrid: View {
+    let facts: [(String, String)] = [
+        ("Name Meaning", "The ground"),
+        ("Diameter", "7,926 miles (12,742 km)"),
+        ("Surface Gravity", "9.8 m/s²"),
+        ("Orbit", "365.25 days"),
+        ("Day", "24 hours"),
+        ("Moons", "1 (Luna)"),
+        ("Avg. Temperature", "15°C (59°F)"),
+        ("Atmosphere", "Nitrogen, oxygen")
+    ]
+    
+    let columns = [
+        GridItem(.flexible(), spacing: 20),
+        GridItem(.flexible(), spacing: 20)
+    ]
+    
+    var body: some View {
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 20) {
+                ForEach(facts, id: \.0) { fact in
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(fact.0)
+                            .font(.custom("SpaceGrotesk-Bold", size: 18))
+                            .foregroundColor(.blue)
+                        Spacer()
+                        Text(fact.1)
+                            .font(.custom("SpaceGrotesk-Regular", size: 16))
+                            .foregroundColor(.white)
                     }
+                    .frame(height: 100)
+                    .frame(maxWidth: .infinity)
                     .padding()
-                    
+                    .background(Color.blue.opacity(0.2))
+                    .cornerRadius(10)
                 }
             }
-        }.padding(.leading, 5)
-        .padding(.trailing, 5)
-        
-        .onAppear {
-            // Additional setup if needed when the view appears
+            .padding()
         }
+    }
+}
+
+struct EarthExplorationSection: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 15) {
+            Text("Earth Observation Highlights")
+                .font(.custom("SpaceGrotesk-Bold", size: 30))
+                .foregroundColor(.white)
+            
+            VStack(alignment: .leading, spacing: 10) {
+                ExplorationItem(
+                    title: "Landsat Program (1972-present)",
+                    description: "Series of Earth-observing satellite missions jointly managed by NASA and USGS."
+                )
+                ExplorationItem(
+                    title: "International Space Station (1998-present)",
+                    description: "Continuously occupied orbiting laboratory providing unique views and research opportunities."
+                )
+                ExplorationItem(
+                    title: "Earth Observing System (1999-present)",
+                    description: "NASA's coordinated series of satellites for long-term global observations of the land surface, biosphere, atmosphere, and oceans."
+                )
+                ExplorationItem(
+                    title: "Copernicus Programme (2014-present)",
+                    description: "European Union's Earth observation program, providing accurate, timely and easily accessible information."
+                )
+            }
+        }
+        .padding()
+        .background(Color.blue.opacity(0.2))
+        .cornerRadius(15)
     }
 }
 
 #Preview {
     Earth()
 }
-
